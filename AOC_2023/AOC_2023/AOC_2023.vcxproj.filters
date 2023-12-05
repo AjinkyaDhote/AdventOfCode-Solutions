@@ -30,6 +30,9 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Day2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -41,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Day1.txt">
+      <Filter>Source Files\Input</Filter>
+    </Text>
+    <Text Include="Cube Conundrum.txt">
       <Filter>Source Files\Input</Filter>
     </Text>
   </ItemGroup>

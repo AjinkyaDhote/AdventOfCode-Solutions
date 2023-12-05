@@ -2,9 +2,14 @@
 
 int main()
 {
+    //Day 1 - Trebuchet
     Solutions::SumOfCalibrationValues();
-    std::cout << "\n";
     Solutions::SumOfRealCalibrationValues();
+
     std::cout << "\n";
+
+    //Day 2 - Cube Conundrum
+    Solutions::CubeConundrum();
+    Solutions::CubeConundrumPartTwo();
     return 0;
 }
