@@ -12,21 +12,24 @@ void Solutions::GearRatios()
     std::ifstream fileStream = Utilities::OpenFile("Gear Ratios.txt");
     std::string line;
     long int  sum = 0;
-
+    std::getline(fileStream, line);
     int rows{ 0 }, columns{ 0 };
-    InputMat mat(10, std::vector<char>(10));
-    
+    rows = line.size();
+    columns = line.size();
+    int i = 0;
+
+    InputMat mat(rows, std::vector<char>(columns));
+
+    fileStream.seekg(0, std::ios::beg); //back to the start;
+
     while (std::getline(fileStream, line))
     {
         for (size_t j  = 0; j < line.size(); j++)
         {
-            mat[rows][j] = line[j];
+            mat[i][j] = line[j];
         }
-        ++rows;
+        ++i;
     }
-
-    rows = 10;
-    columns = 10;
 
 	/*for (int i = 0; i < rows; ++i)
 	{
@@ -41,32 +44,46 @@ void Solutions::GearRatios()
 
 }
 
-void GearRatiosPartOne(InputMat& mat) 
+void GearRatiosPartOne(InputMat& mat) // 553079
 {
     //TODO : Remove hard coded values
-    int rows = 10;
-    int cols = 10;
+    size_t rows = mat.size();
+    size_t cols = mat.size();
     int sum = 0;
 
-    for (int i = 0; i < rows; ++i)
+    for (size_t i = 0; i < rows; ++i)
     {
-        for (int j = 0; j < cols;)
+        for (size_t j = 0; j < cols;)
         {
             if (isdigit(mat[i][j]))
             {
                 int numStartIndex = j;
                 int numEndIndex = j;
-                while (isdigit(mat[i][++numEndIndex]))
-                {}
 
-                int numLength = numEndIndex - numStartIndex; //Get the number Length;
+                while (numEndIndex < cols)
+                {
+                    if (numEndIndex + 1 == cols)
+                    {
+                        //We have reached the last column
+                        numEndIndex = numEndIndex + 1;
+                        break;
+                    }
+                    else if (isdigit(mat[i][numEndIndex]))
+                    {
+                        numEndIndex++;
+                    }
+                    else
+                        break;
+                }
+
+                int numLength = (numEndIndex) - numStartIndex; //Get the number Length;
                 bool value = false;
                 std::string strNum;
                 for (; numStartIndex < numEndIndex; ++numStartIndex)
                 {
                      strNum += mat[i][numStartIndex];
                      if (!value)
-                        value = IsAdjacentElementASpecialCharacter(mat, i, numStartIndex, 10, 10); //Value is already true for elements parsed so skip.
+                        value = IsAdjacentElementASpecialCharacter(mat, i, numStartIndex, rows, cols); //Value is already true for elements parsed so skip.
                 }
                 
                 if (value == true)
@@ -83,6 +100,14 @@ void GearRatiosPartOne(InputMat& mat)
             }
         }
     }
+
+    std::cout << "The sum of all of the part numbers in engine schematics is " << sum << std::endl;
+}
+
+//A gear is any * symbol that is adjacent to exactly two part numbers.
+void GearRatiosPartTwo(InputMat& mat)
+{
+
 }
 
 bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int currentColumn, int TotalRows, int TotalColumns)
@@ -97,7 +122,7 @@ bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int curre
     char bottom = '.';
     char bottomRight = '.';
 
-    std::cout << "Checking Adjacent Elements for the char " << mat[currentRow][currentColumn] << " at Row - " << currentRow << " and Column - " << currentColumn << std::endl;
+    //std::cout << "Checking Adjacent Elements for the char " << mat[currentRow][currentColumn] << " at Row - " << currentRow << " and Column - " << currentColumn << std::endl;
 
     //Top Left
     if (currentRow > 0 && currentColumn > 0)
@@ -112,7 +137,7 @@ bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int curre
     }
 
     //Top Right
-    if (currentColumn < TotalColumns && currentRow > 0)
+    if (currentColumn + 1 < TotalColumns && currentRow > 0)
     {
         topRight = mat[currentRow - 1][currentColumn + 1];
     }
@@ -124,25 +149,25 @@ bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int curre
     }
 	
     //right
-    if (currentColumn < TotalColumns) 
+    if (currentColumn + 1  < TotalColumns) 
     {
         midRight = mat[currentRow][currentColumn + 1];
     }
 	
     //bottom Left
-    if (currentRow < TotalRows && currentColumn > 0)
+    if (currentRow < TotalRows - 1  && currentColumn > 0)
     {
-        bottomLeft = mat[currentRow + 1][currentColumn - 1]; //TODO - Fix me for the last row.
+        bottomLeft = mat[currentRow + 1][currentColumn - 1];
     }
 
     //bottom
-    if (currentRow < TotalRows)
+    if (currentRow < TotalRows - 1)
     {
         bottom = mat[currentRow + 1][currentColumn];
     }
 
     //bottom Right
-    if (currentRow < TotalRows && currentColumn < TotalColumns) //Bottom Right
+    if (currentRow < TotalRows - 1 && currentColumn + 1 < TotalColumns) //Bottom Right
     {
         bottomRight = mat[currentRow + 1][currentColumn + 1];
     }
