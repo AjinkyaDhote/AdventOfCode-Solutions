@@ -5,6 +5,17 @@
 typedef std::vector<std::vector<char>> InputMat;
 void GearRatiosPartOne(InputMat& mat);
 bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int currentColumn, int TotalRows, int TotalColumns);
+//Gear* FindGear(InputMat& mat, int currentRow, int currentColumn, int TotalRows, int TotalColumns);
+
+struct Gear
+{
+    int partNumberOne = -1;
+    int partNumberTwo = -1;
+    int i = -1;
+    int j = -1;
+    bool foundPartNumberOne = false;
+    bool foundPartNumberTwo = false;
+};
 
 void Solutions::GearRatios()
 {
@@ -104,15 +115,9 @@ void GearRatiosPartOne(InputMat& mat) // 553079
     std::cout << "The sum of all of the part numbers in engine schematics is " << sum << std::endl;
 }
 
-//A gear is any * symbol that is adjacent to exactly two part numbers.
-void GearRatiosPartTwo(InputMat& mat)
-{
-
-}
-
 bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int currentColumn, int TotalRows, int TotalColumns)
 {
-	//Index of Adjacent elements
+    //Index of Adjacent elements
     char topLeft = '.';
     char top = '.';
     char topRight = '.';
@@ -143,19 +148,19 @@ bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int curre
     }
 
     //Left
-    if (currentColumn > 0) 
+    if (currentColumn > 0)
     {
         midLeft = mat[currentRow][currentColumn - 1];
     }
-	
+
     //right
-    if (currentColumn + 1  < TotalColumns) 
+    if (currentColumn + 1 < TotalColumns)
     {
         midRight = mat[currentRow][currentColumn + 1];
     }
-	
+
     //bottom Left
-    if (currentRow < TotalRows - 1  && currentColumn > 0)
+    if (currentRow < TotalRows - 1 && currentColumn > 0)
     {
         bottomLeft = mat[currentRow + 1][currentColumn - 1];
     }
@@ -172,19 +177,183 @@ bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int curre
         bottomRight = mat[currentRow + 1][currentColumn + 1];
     }
 
-    if ( (!isdigit(topLeft) && topLeft != '.') ||
-         (!isdigit(top) && top != '.') ||
-         (!isdigit(topRight) && topRight != '.') ||
-         (!isdigit(midLeft) && midLeft != '.') ||
-         (!isdigit(midRight) && midRight != '.') ||
-         (!isdigit(bottomLeft) && bottomLeft != '.') ||
-         (!isdigit(bottom) && bottom != '.') ||
-         (!isdigit(bottomRight) && bottomRight != '.') )
+    if ((!isdigit(topLeft) && topLeft != '.') ||
+        (!isdigit(top) && top != '.') ||
+        (!isdigit(topRight) && topRight != '.') ||
+        (!isdigit(midLeft) && midLeft != '.') ||
+        (!isdigit(midRight) && midRight != '.') ||
+        (!isdigit(bottomLeft) && bottomLeft != '.') ||
+        (!isdigit(bottom) && bottom != '.') ||
+        (!isdigit(bottomRight) && bottomRight != '.'))
     {
         return true;
     }
 
-
     return false;
 
+}
+
+//A gear is any * symbol that is adjacent to exactly two part numbers.
+void GearRatiosPartTwo(InputMat& mat)
+{
+    //TODO : Remove hard coded values
+    size_t rows = mat.size();
+    size_t cols = mat.size();
+    int sum = 0;
+    std::vector<Gear> gears;
+
+    for (size_t i = 0; i < rows; ++i)
+    {
+        for (size_t j = 0; j < cols;)
+        {
+            if (isdigit(mat[i][j]))
+            {
+                int numStartIndex = j;
+                int numEndIndex = j;
+
+                while (numEndIndex < cols)
+                {
+                    if (numEndIndex + 1 == cols)
+                    {
+                        //We have reached the last column
+                        numEndIndex = numEndIndex + 1;
+                        break;
+                    }
+                    else if (isdigit(mat[i][numEndIndex]))
+                    {
+                        numEndIndex++;
+                    }
+                    else
+                        break;
+                }
+
+                int numLength = (numEndIndex)-numStartIndex; //Get the number length;
+                bool value = false;
+                std::string strNum;
+                for (; numStartIndex < numEndIndex; ++numStartIndex)
+                {
+                    strNum += mat[i][numStartIndex];
+                    Gear* gear = FindGear(mat, i, numStartIndex, rows, cols);
+                }
+
+                if (value == true)
+                {
+                    //Form the Part Number and add it to the sum
+                    sum += std::stoi(strNum);
+                }
+                j = numEndIndex;
+            }
+            else
+            {
+                ++j;
+            }
+        }
+    }
+}
+
+
+Gear* FindGear(InputMat& mat, int currentRow, int currentColumn, int TotalRows, int TotalColumns)
+{
+    //Index of Adjacent elements
+    char topLeft = '.';
+    char top = '.';
+    char topRight = '.';
+    char midLeft = '.';
+    char midRight = '.';
+    char bottomLeft = '.';
+    char bottom = '.';
+    char bottomRight = '.';
+
+    Gear* gear = new Gear();
+
+    //std::cout << "Checking Adjacent Elements for the char " << mat[currentRow][currentColumn] << " at Row - " << currentRow << " and Column - " << currentColumn << std::endl;
+
+    //Top Left
+    if (currentRow > 0 && currentColumn > 0)
+    {
+        topLeft = mat[currentRow - 1][currentColumn - 1];
+        if ((!isdigit(topLeft) && topLeft != '.'))
+        {
+            gear->i = currentRow - 1;
+            gear->j = currentColumn - 1;
+        }
+    }
+
+    if (currentRow > 0)
+    {
+        top = mat[currentRow - 1][currentColumn];
+        if ((!isdigit(top) && top != '.'))
+        {
+            gear->i = currentRow - 1;
+            gear->j = currentColumn;
+        }
+    }
+
+    //Top Right
+    if (currentColumn + 1 < TotalColumns && currentRow > 0)
+    {
+        topRight = mat[currentRow - 1][currentColumn + 1];
+        if ((!isdigit(topRight) && topRight != '.'))
+        {
+            gear->i = currentRow - 1;
+            gear->j = currentColumn + 1;
+        }
+    }
+
+    //Left
+    if (currentColumn > 0)
+    {
+        midLeft = mat[currentRow][currentColumn - 1];
+        if ((!isdigit(midLeft) && midLeft != '.'))
+        {
+            gear->i = currentRow;
+            gear->j = currentColumn - 1;
+        }
+    }
+
+    //right
+    if (currentColumn + 1 < TotalColumns)
+    {
+        midRight = mat[currentRow][currentColumn + 1];
+        if ((!isdigit(midRight) && midRight != '.'))
+        {
+            gear->i = currentRow;
+            gear->j = currentColumn + 1;
+        }
+    }
+
+    //bottom Left
+    if (currentRow < TotalRows - 1 && currentColumn > 0)
+    {
+        bottomLeft = mat[currentRow + 1][currentColumn - 1];
+        if ((!isdigit(bottomLeft) && bottomLeft != '.'))
+        {
+            gear->i = currentRow + 1;
+            gear->j = currentColumn - 1;
+        }
+    }
+
+    //bottom
+    if (currentRow < TotalRows - 1)
+    {
+        bottom = mat[currentRow + 1][currentColumn];
+        if ((!isdigit(bottom) && bottom != '.'))
+        {
+            gear->i = currentRow + 1;
+            gear->j = currentColumn;
+        }
+    }
+
+    //bottom Right
+    if (currentRow < TotalRows - 1 && currentColumn + 1 < TotalColumns) //Bottom Right
+    {
+        bottomRight = mat[currentRow + 1][currentColumn + 1];
+        if ((!isdigit(bottomRight) && bottomRight != '.'))
+        {
+            gear->i = currentRow + 1;
+            gear->j = currentColumn + 1;
+        }
+    }
+
+    return gear;
 }
