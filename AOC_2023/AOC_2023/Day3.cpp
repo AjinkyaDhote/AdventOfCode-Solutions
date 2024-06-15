@@ -20,10 +20,15 @@ bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int curre
 
 struct Gear
 {
-    int i, j;
+    int row, col;
+    int partOneNumber, partTwoNumber;
+    Gear() : row (-1), col(-1), partOneNumber(-1), partTwoNumber(-1) {}
+    Gear(int gearRow, int gearCol) : row(gearRow), col(gearCol) {}
+
+    bool HasBothPartNumbers() const { return partOneNumber != -1 && partTwoNumber != -1; }
 };
 
-std::map<Gear, bool> gearMap;
+std::vector<Gear> gearVec;
 
 void Solutions::GearRatios()
 {
@@ -64,7 +69,7 @@ void Solutions::GearRatios()
 
 }
 
-Gear* FindGear(InputMat& mat, int currentRow, int currentColumn, int TotalRows, int TotalColumns, int gearRow = -1, int gearCol = -1)
+bool FindGear(InputMat& mat, int currentRow, int currentColumn, int TotalRows, int TotalColumns, int &gearRow, int &gearCol)
 {
     //Index of Adjacent elements
     char topLeft = '.';
@@ -75,10 +80,6 @@ Gear* FindGear(InputMat& mat, int currentRow, int currentColumn, int TotalRows, 
     char bottomLeft = '.';
     char bottom = '.';
     char bottomRight = '.';
-
-    //Gear* gear = new Gear();
-
-    //std::cout << "Checking Adjacent Elements for the char " << mat[currentRow][currentColumn] << " at Row - " << currentRow << " and Column - " << currentColumn << std::endl;
 
     //Top Left
     if (currentRow > 0 && currentColumn > 0)
@@ -167,7 +168,7 @@ Gear* FindGear(InputMat& mat, int currentRow, int currentColumn, int TotalRows, 
         }
     }
 
-    return nullptr;
+    return gearRow != -1 && gearCol != -1;
 }
 
 void GearRatiosPartOne(InputMat& mat) // 553079
@@ -311,7 +312,6 @@ bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int curre
 //A gear is any * symbol that is adjacent to exactly two part numbers.
 void GearRatiosPartTwo(InputMat& mat)
 {
-    //TODO : Remove hard coded values
     size_t rows = mat.size();
     size_t cols = mat.size();
     int sum = 0;
@@ -345,17 +345,51 @@ void GearRatiosPartTwo(InputMat& mat)
                 int numLength = (numEndIndex)-numStartIndex; //Get the number length;
                 bool value = false;
                 std::string strNum;
+                int gearRow, gearCol = -1;
                 for (; numStartIndex < numEndIndex; ++numStartIndex)
                 {
                     strNum += mat[i][numStartIndex];
                     if (!value)
-                        value = IsAdjacentElementASpecialCharacter(mat, i, numStartIndex, rows, cols); //Value is already true for elements parsed so skip.
+                        value = FindGear(mat, i, numStartIndex, rows, cols, gearRow, gearCol);
                 }
 
                 if (value == true)
                 {
-                    //This is a part number. Do we know the gear associated with it already?
-
+                    if (gearVec.empty()) //Handle first gear
+                    {
+                        Gear gear;
+                        gear.row = gearRow;
+                        gear.col = gearCol;
+                        gear.partOneNumber = std::stoi(strNum);
+                        gearVec.push_back(gear);
+                    }
+                    else
+                    {
+                        //Check if we already know about this gear.
+                        bool gearFound = false;
+                        for (Gear& g : gearVec)
+                        {
+                            if (g.HasBothPartNumbers())
+                            {
+                                //We have both the part Numbers for this gear.
+                            }
+                            else if (g.partOneNumber != -1 && g.row == gearRow && g.col == gearCol)
+                            {
+                                //Existing gear. We have the second part number for this gear.
+                                g.partTwoNumber = std::stoi(strNum);
+                                gearFound = true;
+                            }
+                        }
+                        if (!gearFound) //New gear
+                        {
+                            Gear gear;
+                            gear.row = gearRow;
+                            gear.col = gearCol;
+                            gear.partOneNumber = std::stoi(strNum);
+                            gearVec.push_back(gear);
+                        }
+                    }
+                    
                 }
                 j = numEndIndex;
             }
@@ -365,6 +399,18 @@ void GearRatiosPartTwo(InputMat& mat)
             }
         }
     }
+
+    long int gearRatioSum = 0;
+    for (const Gear& g : gearVec)
+    {
+        if (g.HasBothPartNumbers())
+        {
+            int gearRatio = g.partOneNumber * g.partTwoNumber;
+            gearRatioSum += gearRatio;
+        }
+    }
+
+    std::cout << "The sum of all of gear ratios in engine schematics is " << gearRatioSum << std::endl;
 }
 
 
