@@ -6,17 +6,6 @@ typedef std::vector<std::vector<char>> InputMat;
 void GearRatiosPartOne(InputMat& mat);
 void GearRatiosPartTwo(InputMat& mat);
 bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int currentColumn, int TotalRows, int TotalColumns);
-//Gear* FindGear(InputMat& mat, int currentRow, int currentColumn, int TotalRows, int TotalColumns);
-
-//struct Gear
-//{
-//    int partNumberOne = -1;
-//    int partNumberTwo = -1;
-//    int i = -1;
-//    int j = -1;
-//    bool foundPartNumberOne = false;
-//    bool foundPartNumberTwo = false;
-//};
 
 struct Gear
 {
@@ -54,15 +43,6 @@ void Solutions::GearRatios()
         }
         ++i;
     }
-
-	/*for (int i = 0; i < rows; ++i)
-	{
-		for (int j = 0; j < columns; ++j)
-		{
-			std::cout << mat[i][j];
-		}
-		std::cout << "\n";
-	}*/
 
     GearRatiosPartOne(mat);
     GearRatiosPartTwo(mat);

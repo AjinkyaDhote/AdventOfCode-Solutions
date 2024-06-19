@@ -15,4 +15,7 @@ public:
 
     //Day 3 - Gear Ratios
     static void GearRatios();
+
+    //Day 4 - Never Tell Me the Odds
+    static void ScratchCards();
 };

@@ -12,6 +12,9 @@
 #include <string.h>
 #include <regex>
 #include <map>
+#include <chrono>
+#include <set>
+#include <unordered_set>
 
 
 class Utilities
@@ -19,6 +22,7 @@ class Utilities
 public:
     static std::vector<std::string> SplitString(const std::string& String, const std::string& Delimiter);
     static std::vector<std::string> ReadCommaSeperatedString(const std::string& string);
+    static std::vector<std::string> ReadSpaceSeperatedString(const std::string& string);
     
     //File Handling
     static std::ifstream OpenFile(std::string filePath);

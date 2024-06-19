@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Input">
       <UniqueIdentifier>{d4461118-ad15-45a2-b59d-a3eacf8d4e48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Input\Day 4">
+      <UniqueIdentifier>{bb9b94b3-30bf-44c8-b3c5-5d67b248b5a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Day1.cpp">
@@ -34,6 +37,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Day3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Day4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,6 +60,12 @@
     </Text>
     <Text Include="Gear Ratios.txt">
       <Filter>Source Files\Input</Filter>
+    </Text>
+    <Text Include="Day 4 Example.txt">
+      <Filter>Source Files\Input\Day 4</Filter>
+    </Text>
+    <Text Include="Day 4 Part 1 Input.txt">
+      <Filter>Source Files\Input\Day 4</Filter>
     </Text>
   </ItemGroup>
 </Project>

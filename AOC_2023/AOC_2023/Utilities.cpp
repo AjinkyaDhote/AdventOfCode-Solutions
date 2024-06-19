@@ -37,6 +37,23 @@ std::vector<std::string> Utilities::ReadCommaSeperatedString(const std::string& 
     return Tokens;
 }
 
+std::vector<std::string> Utilities::ReadSpaceSeperatedString(const std::string& string)
+{
+    std::vector<std::string> Tokens;
+    std::stringstream ss(string);
+    std::string token;
+    while (std::getline(ss, token, ' '))
+    {
+        if (!token.empty())
+        {
+            Tokens.push_back(token);
+        }
+    }
+
+    return Tokens;
+}
+
+
 std::ifstream Utilities::OpenFile(std::string filePath)
 {
     std::ifstream file(filePath);
