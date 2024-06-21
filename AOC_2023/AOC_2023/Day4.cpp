@@ -4,9 +4,18 @@
 
 int CalculateLineScore(std::unordered_set<int>& winningNumbers, std::unordered_set<int>& myNumbers);
 int CalculateLineScoreVector(std::vector<int>& winningNumbers, std::vector<int>& myNumbers);
+void ScratchCardsPartOne();
+void ScratchCardsPartTwo();
+
 
 
 void Solutions::ScratchCards() //27059
+{
+    //ScratchCardsPartOne();
+    ScratchCardsPartTwo();
+}
+
+void ScratchCardsPartOne()
 {
     //Open and read the file
     std::ifstream fs = Utilities::OpenFile("Day 4 Part 1 Input.txt");
@@ -17,7 +26,7 @@ void Solutions::ScratchCards() //27059
     std::vector<int> winningNumbersVec;
     std::vector<int> myNumbersVec;
     long int sum = 0;
-    
+
     while (std::getline(fs, line))
     {
         //Line structure
@@ -59,7 +68,47 @@ void Solutions::ScratchCards() //27059
         myNumbersVec.clear();
     }
 
-    std::cout << "Scratch Cards Total Points - " <<  sum << std::endl;
+    std::cout << "Scratch Cards Total Points - " << sum << std::endl;
+}
+
+void ScratchCardsPartTwo()
+{
+    //Open and read the file
+    std::ifstream fs = Utilities::OpenFile("Day 4 Part 2 Example.txt");
+    std::string line;
+    std::map<uint32_t, uint32_t> scratchCards;
+    uint64_t sum = 0;
+
+    while (std::getline(fs, line)) //Read each line
+    {
+       //Line structure
+       //Card N: 41 48 83 86 17 | 83 86 6 31 17 9 48 53
+       //41, 48, 83, 86, 17 are winning numbers
+       // | -> seperator
+
+        std::vector<std::string> vec = Utilities::SplitString(line, "|");
+    }
+}
+
+uint16_t GetWinningNumbers(std::vector<int>& winningNumbers, std::vector<int>& myNumbers)
+{
+    //Find each winning number in my numbers vector
+    int lineSum = 0;
+    uint16_t totalWinningNumbers = 0;
+
+    for (size_t i = 0; i < winningNumbers.size(); ++i)
+    {
+        for (size_t j = 0; j < myNumbers.size(); ++j)
+        {
+            if (winningNumbers[i] == myNumbers[j])
+            {
+                totalWinningNumbers++;
+                break;
+            }
+        }
+    }
+
+    return totalWinningNumbers;
 }
 
 //Additional method to find the element using unordered_set. Written to measure time complexity.

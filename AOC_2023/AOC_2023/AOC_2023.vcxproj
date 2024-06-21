@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Cube Conundrum.txt" />
+    <Text Include="Day 4 - Part 2 Example.txt" />
     <Text Include="Day 4 Example.txt" />
     <Text Include="Day 4 Part 1 Input.txt" />
     <Text Include="Day1.txt" />
