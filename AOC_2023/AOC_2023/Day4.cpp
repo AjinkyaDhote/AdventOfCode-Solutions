@@ -5,20 +5,26 @@
 int CalculateLineScore(std::unordered_set<int>& winningNumbers, std::unordered_set<int>& myNumbers);
 int CalculateLineScoreVector(std::vector<int>& winningNumbers, std::vector<int>& myNumbers);
 void ScratchCardsPartOne();
+
 void ScratchCardsPartTwo();
 
+typedef int CardNumber;
+typedef int CardInstances;
+
+uint16_t GetWinningNumbers(std::vector<int>& winningNumbers, std::vector<int>& myNumbers);
 
 
 void Solutions::ScratchCards() //27059
 {
-    //ScratchCardsPartOne();
+    std::cout << "Day 4 - Scratch Cards" << std::endl;
+    ScratchCardsPartOne();
     ScratchCardsPartTwo();
 }
 
 void ScratchCardsPartOne()
 {
     //Open and read the file
-    std::ifstream fs = Utilities::OpenFile("Day 4 Part 1 Input.txt");
+    std::ifstream fs = Utilities::OpenFile("Day 4 Input.txt");
     std::string line;
 
     std::unordered_set<int> winningNumbers;
@@ -74,10 +80,13 @@ void ScratchCardsPartOne()
 void ScratchCardsPartTwo()
 {
     //Open and read the file
-    std::ifstream fs = Utilities::OpenFile("Day 4 Part 2 Example.txt");
+    std::ifstream fs = Utilities::OpenFile("Day 4 Input.txt");
     std::string line;
-    std::map<uint32_t, uint32_t> scratchCards;
-    uint64_t sum = 0;
+    std::map<CardNumber, CardInstances> scratchCards;
+    int sum = 0;
+    int cardNumber = 1;
+    std::vector<int> winningNumbersVec;
+    std::vector<int> myNumbersVec;
 
     while (std::getline(fs, line)) //Read each line
     {
@@ -87,7 +96,66 @@ void ScratchCardsPartTwo()
        // | -> seperator
 
         std::vector<std::string> vec = Utilities::SplitString(line, "|");
+        std::vector<std::string> splitString = Utilities::SplitString(vec[0], ":");
+
+        std::vector<std::string> winningNumbers = Utilities::ReadSpaceSeperatedString(splitString[1]);
+
+        for (std::string str : winningNumbers)
+        {
+            winningNumbersVec.push_back(std::stoi(str));
+        }
+
+        std::vector<std::string> myNumbers = Utilities::ReadSpaceSeperatedString(vec[1]);
+
+        for (std::string str : myNumbers)
+        {
+            myNumbersVec.push_back(std::stoi(str));
+        }
+
+        uint16_t winningNumbCount = GetWinningNumbers(winningNumbersVec, myNumbersVec);
+
+        //Add ourselves to the map
+        scratchCards.find(cardNumber) == scratchCards.end() ? scratchCards[cardNumber] = 1 : 
+            scratchCards[cardNumber]++;
+        int nextLineNumberToRead = 1;
+
+        while (winningNumbCount > 0)
+        {
+            int c = fs.peek();
+            if (c != EOF)
+            {
+                //Add next card number to the map;
+                if (scratchCards.find(cardNumber + nextLineNumberToRead) == scratchCards.end())
+                {
+                    scratchCards[cardNumber + nextLineNumberToRead] = scratchCards[cardNumber];
+                }
+                else
+                {
+                   //For every copy of current card add an occurence of the next card.
+                    scratchCards[cardNumber + nextLineNumberToRead] += scratchCards[cardNumber];
+                }
+            }
+            else
+            {
+                break; //We have reached end of file.
+
+            }
+            winningNumbCount--;
+            nextLineNumberToRead++;
+        }
+        
+        winningNumbersVec.clear();
+        myNumbersVec.clear();
+        cardNumber++;
     }
+
+    for (auto element : scratchCards)
+    {
+        sum += element.second;
+    }
+
+    std::cout << "Total Scratch Cards won - " << sum << std::endl;
+
 }
 
 uint16_t GetWinningNumbers(std::vector<int>& winningNumbers, std::vector<int>& myNumbers)
@@ -160,5 +228,3 @@ int CalculateLineScoreVector(std::vector<int>& winningNumbers, std::vector<int>&
 
     return lineSum;
 }
-
-

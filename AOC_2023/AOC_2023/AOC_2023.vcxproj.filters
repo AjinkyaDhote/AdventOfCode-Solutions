@@ -64,10 +64,7 @@
     <Text Include="Day 4 Example.txt">
       <Filter>Source Files\Input\Day 4</Filter>
     </Text>
-    <Text Include="Day 4 Part 1 Input.txt">
-      <Filter>Source Files\Input\Day 4</Filter>
-    </Text>
-    <Text Include="Day 4 - Part 2 Example.txt">
+    <Text Include="Day 4 Input.txt">
       <Filter>Source Files\Input\Day 4</Filter>
     </Text>
   </ItemGroup>
