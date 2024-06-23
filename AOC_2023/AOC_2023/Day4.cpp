@@ -56,6 +56,9 @@ void ScratchCardsPartOne()
             winningNumbersVec.push_back(std::stoi(wn));
         }
 
+        
+        
+
         std::vector<std::string> myNums = Utilities::ReadSpaceSeperatedString(vec[1]);
 
         for (std::string myno : myNums)
@@ -85,8 +88,7 @@ void ScratchCardsPartTwo()
     std::map<CardNumber, CardInstances> scratchCards;
     int sum = 0;
     int cardNumber = 1;
-    std::vector<int> winningNumbersVec;
-    std::vector<int> myNumbersVec;
+   
 
     while (std::getline(fs, line)) //Read each line
     {
@@ -100,17 +102,16 @@ void ScratchCardsPartTwo()
 
         std::vector<std::string> winningNumbers = Utilities::ReadSpaceSeperatedString(splitString[1]);
 
-        for (std::string str : winningNumbers)
-        {
-            winningNumbersVec.push_back(std::stoi(str));
-        }
+        std::vector<int> winningNumbersVec(winningNumbers.size());
+        std::transform(winningNumbers.begin(), winningNumbers.end(), winningNumbersVec.begin(), [](const std::string& str) {
+                return std::stoi(str); });
+
 
         std::vector<std::string> myNumbers = Utilities::ReadSpaceSeperatedString(vec[1]);
 
-        for (std::string str : myNumbers)
-        {
-            myNumbersVec.push_back(std::stoi(str));
-        }
+        std::vector<int> myNumbersVec(myNumbers.size());
+        std::transform(myNumbers.begin(), myNumbers.end(), myNumbersVec.begin(), [](const std::string& str) {
+            return std::stoi(str); });
 
         uint16_t winningNumbCount = GetWinningNumbers(winningNumbersVec, myNumbersVec);
 
