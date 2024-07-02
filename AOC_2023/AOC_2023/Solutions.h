@@ -18,4 +18,7 @@ public:
 
     //Day 4 - Never Tell Me the Odds
     static void ScratchCards();
+
+    //Day 5 - If You Give A Seed A Fertilizer
+    static void IfYouGiveASeedAFertilizer();
 };

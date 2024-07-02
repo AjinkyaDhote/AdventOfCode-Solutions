@@ -16,15 +16,19 @@ int main()
     //Day 3 - Gear Ratios
     //Solutions::GearRatios();
 
+    //Day 4 - Never Tell Me The Odds
+    //Solutions::ScratchCards();
+
+    //Day 5 - Day 5: If You Give A Seed A Fertilizer
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    //Day 4 - Never Tell Me The Odds
-    Solutions::ScratchCards();
+    Solutions::IfYouGiveASeedAFertilizer();
 
     auto stopTime = std::chrono::high_resolution_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stopTime - startTime);
     std::cout << "Time taken to execute " << duration.count() << " microseconds." << std::endl;
+
 
     return 0;
 }
