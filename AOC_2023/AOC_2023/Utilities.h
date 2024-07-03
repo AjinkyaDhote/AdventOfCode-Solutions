@@ -9,12 +9,16 @@
 #include <numeric>
 #include <algorithm>
 #include <cstring>
-#include <string.h>
+#include <cstring>
 #include <regex>
 #include <map>
 #include <chrono>
 #include <set>
 #include <unordered_set>
+#include <ranges>
+#include <cctype>
+#include <iterator>
+
 
 
 class Utilities
