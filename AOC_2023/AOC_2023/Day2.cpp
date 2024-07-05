@@ -16,7 +16,7 @@ void GetFewestNumberOfCubesForEachColor(std::string str, Colors* colors);
 void Solutions::CubeConundrum() // 2239
 {
     //Open the File
-    std::ifstream fileStream = Utilities::OpenFile("Cube Conundrum.txt");
+    std::ifstream fileStream = Utilities::OpenFile("Day 2.txt");
 
     std::string line;
     long int  sum = 0;

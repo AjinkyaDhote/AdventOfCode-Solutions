@@ -22,7 +22,7 @@ std::vector<Gear> gearVec;
 void Solutions::GearRatios()
 {
     //Open the File
-    std::ifstream fileStream = Utilities::OpenFile("Gear Ratios.txt");
+    std::ifstream fileStream = Utilities::OpenFile("Day 3.txt");
     std::string line;
     long int  sum = 0;
     std::getline(fileStream, line);
