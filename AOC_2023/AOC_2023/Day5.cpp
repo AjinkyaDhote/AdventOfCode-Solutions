@@ -1,7 +1,7 @@
 //------Day 5: If You Give A Seed A Fertilizer----
 #include "Solutions.h"
 
-#define DEBUG_TEST
+//#define DEBUG_TEST
 
 
 std::vector<std::string> mapTags = {
@@ -41,15 +41,15 @@ struct Map
 
 void PartOne(std::ifstream& fs, std::vector<uint64_t> seeds);
 void PartTwo(std::ifstream& fs, std::vector<uint64_t> seeds);
-uint64_t FindClosestSeedLocation(std::ifstream& fs, std::vector<uint64_t> seeds, bool bPartTwo = false);
-uint64_t FindClosestSeedLocation2(std::vector<Map>& maps, std::vector<std::pair<uint64_t, uint64_t>>& inputRanges);
+uint64_t FindClosestSeedLocation(std::ifstream& fs, std::vector<uint64_t> seeds);
+uint64_t FindClosestSeedLocation2(std::vector<Map>& maps, std::vector<uint64_t> seeds);
 
 void Solutions::IfYouGiveASeedAFertilizer()
 {
     std::cout << "Day 5 - If You Give A Seed A Fertilizer" << std::endl;
 
     //Open a stream and read the input
-    std::ifstream fs = Utilities::OpenFile("Day 5 Example.txt");
+    std::ifstream fs = Utilities::OpenFile("Day 5 Input.txt");
     std::string seedInputLine;
     
     std::getline(fs, seedInputLine);
@@ -65,7 +65,7 @@ void Solutions::IfYouGiveASeedAFertilizer()
 		return std::stoul(str); });
 
     std::cout << "Part One" << "\n";
-    //PartOne(fs, seeds);
+    PartOne(fs, seeds);
     
     //Reset the stream pointer to the beginning
     fs.clear();
@@ -86,14 +86,6 @@ void PartOne(std::ifstream& fs, std::vector<uint64_t> seeds)
 
 void PartTwo(std::ifstream& fs, std::vector<uint64_t> seeds)
 {
-    //Convert seeds into inputRange which will be mapped with given maps.
-    std::vector<std::pair<uint64_t, uint64_t>> inputRanges;
-    for (uint64_t i = 0; i < seeds.size(); )
-    {
-        inputRanges.push_back({ seeds[i], seeds[i + 1] });
-        i = i + 2;
-    }
-
     //Creating Maps
     std::string line;
     std::vector<Map> maps;
@@ -139,51 +131,59 @@ void PartTwo(std::ifstream& fs, std::vector<uint64_t> seeds)
         }
     }
 
-    std::cout << "The closest location for the given seed numbers is - " << FindClosestSeedLocation2(maps, inputRanges) << "\n";
+    std::cout << "The closest location for the given seed numbers is - " << FindClosestSeedLocation2(maps, seeds) << "\n";
 }
 
 std::pair<uint64_t, uint64_t> Intersection(uint64_t LeftInput, uint64_t RightInput, uint64_t LeftRange, uint64_t RightRange)
 {
-    if (LeftInput < LeftRange || RightInput > RightRange)
+    if (RightInput < LeftRange || LeftInput > RightRange)
     {
-        return { -1, -1 };
+        return { -1, -1 }; //No Intersection
     }
     
     return { std::max(LeftInput,LeftRange), std::min(RightInput, RightRange)};
 }
 
-uint64_t FindClosestSeedLocation2(std::vector<Map>& maps, std::vector<std::pair<uint64_t, uint64_t>>& inputRanges)
+uint64_t FindClosestSeedLocation2(std::vector<Map>& maps, std::vector<uint64_t> seeds)
 {
-    uint64_t ans;
+    uint64_t ans = static_cast<uint64_t>(1e18);
 
-    for (auto& map : maps) //Maps - 7 loops
+    for (int idx = 0; idx < seeds.size(); idx += 2)
     {
-        std::vector<std::pair<uint64_t, uint64_t>> newInputRanges;
+        uint64_t start = seeds[idx];
+        uint64_t length = seeds[idx + 1];
+        uint64_t end = start + length - 1;
+        
+        std::vector<std::pair<uint64_t, uint64_t>> inputRanges = { {start, end} };
 
-        for (uint64_t i = 0; i < inputRanges.size(); i++)
+        for (auto& map : maps) //Maps - 7 loops
         {
-            std::vector<std::pair<uint64_t, uint64_t>> intersections;
+            std::vector<std::pair<uint64_t, uint64_t>> newInputRanges;
 
-            uint64_t LeftInput = inputRanges[i].first;
-            uint64_t RightInput = inputRanges[i].first + inputRanges[i].second - 1;
-
-            
-            for (auto& Interval : map.intervals) //Intevals loop
+            for (auto& [L, R] : inputRanges)
             {
-                uint64_t length = Interval.rangeLength;
-                uint64_t dest = Interval.destination;
-                uint64_t srcStart = Interval.source;
-                uint64_t srcEnd = srcStart + length - 1;
-    
-                std::pair<uint64_t, uint64_t> intersect = Intersection(LeftInput, RightInput, srcStart, srcEnd);
-                if (intersect.first != -1 && intersect.second != -1) //Intersection detected
+                std::vector<std::pair<uint64_t, uint64_t>> intersections;
+
+                uint64_t LeftInput = L;
+                uint64_t RightInput = R;
+
+                for (auto& Interval : map.intervals) //Intervals loop
                 {
-                    //Find the mapping
-                    uint64_t mappingStart = dest + intersect.first - srcStart;
-                    uint64_t mappingEnd = dest + intersect.second - srcStart;
-    
-                    newInputRanges.push_back({ mappingStart , mappingEnd });
-                    intersections.push_back({ intersect.first, intersect.second });
+                    uint64_t length = Interval.rangeLength;
+                    uint64_t dest = Interval.destination;
+                    uint64_t srcStart = Interval.source;
+                    uint64_t srcEnd = srcStart + length - 1;
+
+                    std::pair<uint64_t, uint64_t> intersect = Intersection(LeftInput, RightInput, srcStart, srcEnd);
+                    if (intersect.first != -1 && intersect.second != -1) //Intersection detected
+                    {
+                        //Find the mapping
+                        uint64_t mappingStart = dest + intersect.first - srcStart;
+                        uint64_t mappingEnd = dest + intersect.second - srcStart;
+
+                        newInputRanges.push_back({ mappingStart , mappingEnd });
+                        intersections.push_back({ intersect.first, intersect.second });
+                    }
                 }
 
                 //Process non-intersected ranges.
@@ -193,18 +193,18 @@ uint64_t FindClosestSeedLocation2(std::vector<Map>& maps, std::vector<std::pair<
                 {
                     if (curr < x)
                     {
-                        newInputRanges.push_back({ curr, x - 1 });
+                    newInputRanges.push_back({ curr, x - 1 });
                     }
                     curr = y + 1;
                 }
                 if (curr <= RightInput)
                 {
-                    newInputRanges.push_back({ curr , RightInput });
+                     newInputRanges.push_back({ curr , RightInput });
                 }
             }
+            inputRanges = newInputRanges;
         }
-        inputRanges = newInputRanges;
-        
+
         std::sort(inputRanges.begin(), inputRanges.end());
         ans = std::min(ans, inputRanges[0].first);
     }
@@ -213,7 +213,7 @@ uint64_t FindClosestSeedLocation2(std::vector<Map>& maps, std::vector<std::pair<
 }
 
 
-uint64_t FindClosestSeedLocation (std::ifstream& fs, std::vector<uint64_t> seeds, bool bPartTwo)
+uint64_t FindClosestSeedLocation (std::ifstream& fs, std::vector<uint64_t> seeds)
 {
     std::string line;
     bool readingMap = false;
