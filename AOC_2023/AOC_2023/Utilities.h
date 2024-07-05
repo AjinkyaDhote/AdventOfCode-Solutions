@@ -15,7 +15,6 @@
 #include <chrono>
 #include <set>
 #include <unordered_set>
-#include <ranges>
 #include <cctype>
 #include <iterator>
 
