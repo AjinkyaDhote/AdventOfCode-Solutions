@@ -30,7 +30,7 @@ int main()
 
     auto stopTime = std::chrono::high_resolution_clock::now();
 
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stopTime - startTime);
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stopTime - startTime);
     std::cout << "Time taken to execute " << duration.count() << " ms." << std::endl;
 
     return 0;
