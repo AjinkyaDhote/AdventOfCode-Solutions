@@ -24,9 +24,11 @@ int main()
 
     
     //Day 6 = Wait For It
+    //Solutions::WaitForIt();
+
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    Solutions::WaitForIt();
+    Solutions::CamelCards();
 
     auto stopTime = std::chrono::high_resolution_clock::now();
 

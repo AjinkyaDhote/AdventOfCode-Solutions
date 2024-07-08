@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Input\Day 1">
       <UniqueIdentifier>{6ebc6b91-9d1f-4764-8258-1bb3ff7f9ddc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Input\Day 7">
+      <UniqueIdentifier>{89e419a2-b71c-40d1-b401-f69873ef6d2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Day1.cpp">
@@ -61,6 +64,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Day 6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Day 7.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -99,6 +105,9 @@
     </Text>
     <Text Include="Day 6 Input.txt">
       <Filter>Source Files\Input\Day 6</Filter>
+    </Text>
+    <Text Include="Day 7 Example.txt">
+      <Filter>Source Files\Input\Day 7</Filter>
     </Text>
   </ItemGroup>
 </Project>

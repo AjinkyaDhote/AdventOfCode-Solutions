@@ -18,7 +18,10 @@
 #include <cctype>
 #include <iterator>
 
-
+//Defines
+#define sz(x) (int)(x.size()) 
+#define FOR(i, R) for (int i = (0) ; i < (R) ; ++i)
+#define FORLR(i, L, R) for(int i = (L) ; i <= (R) ; ++i)
 
 class Utilities
 {

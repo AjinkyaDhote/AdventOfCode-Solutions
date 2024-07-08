@@ -24,4 +24,7 @@ public:
 
     //Day 6 - Wait For It
     static void WaitForIt();
+
+    //Day 7 - CamelCards
+    static void CamelCards();
 };

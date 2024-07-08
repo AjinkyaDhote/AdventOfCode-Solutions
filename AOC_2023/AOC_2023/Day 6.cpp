@@ -1,7 +1,5 @@
 #include "Solutions.h"
 
-#define sz(x) (int)(x.size()) 
-
 void PartOne(std::vector<std::pair<int, int>> inputMap)
 {
 	int ans = 1;
