@@ -20,15 +20,18 @@ int main()
     //Solutions::ScratchCards();
 
     //Day 5 - Day 5: If You Give A Seed A Fertilizer
+    //Solutions::IfYouGiveASeedAFertilizer();
+
+    
+    //Day 6 = Wait For It
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    Solutions::IfYouGiveASeedAFertilizer();
+    Solutions::WaitForIt();
 
     auto stopTime = std::chrono::high_resolution_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stopTime - startTime);
     std::cout << "Time taken to execute " << duration.count() << " ms." << std::endl;
-
 
     return 0;
 }

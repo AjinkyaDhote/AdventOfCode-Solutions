@@ -25,6 +25,18 @@
     <Filter Include="Source Files\Input\Day 5">
       <UniqueIdentifier>{e3bad40a-2e62-4da0-8cd7-940b908488c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Input\Day 6">
+      <UniqueIdentifier>{fd3ca6e9-661b-4893-be5c-c881c2d15b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input\Day 2">
+      <UniqueIdentifier>{3ca5edfc-0be0-426f-affb-c99757a044c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input\Day 3">
+      <UniqueIdentifier>{c2248f30-61ed-45b8-90f4-4b3b51506304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input\Day 1">
+      <UniqueIdentifier>{6ebc6b91-9d1f-4764-8258-1bb3ff7f9ddc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Day1.cpp">
@@ -48,6 +60,9 @@
     <ClCompile Include="Day5.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Day 6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -58,15 +73,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Day1.txt">
-      <Filter>Source Files\Input</Filter>
-    </Text>
-    <Text Include="Cube Conundrum.txt">
-      <Filter>Source Files\Input</Filter>
-    </Text>
-    <Text Include="Gear Ratios.txt">
-      <Filter>Source Files\Input</Filter>
-    </Text>
     <Text Include="Day 4 Example.txt">
       <Filter>Source Files\Input\Day 4</Filter>
     </Text>
@@ -78,6 +84,21 @@
     </Text>
     <Text Include="Day 5 Input.txt">
       <Filter>Source Files\Input\Day 5</Filter>
+    </Text>
+    <Text Include="Day 2.txt">
+      <Filter>Source Files\Input\Day 2</Filter>
+    </Text>
+    <Text Include="Day 3.txt">
+      <Filter>Source Files\Input\Day 3</Filter>
+    </Text>
+    <Text Include="Day1.txt">
+      <Filter>Source Files\Input\Day 1</Filter>
+    </Text>
+    <Text Include="Day 6 Example.txt">
+      <Filter>Source Files\Input\Day 6</Filter>
+    </Text>
+    <Text Include="Day 6 Input.txt">
+      <Filter>Source Files\Input\Day 6</Filter>
     </Text>
   </ItemGroup>
 </Project>

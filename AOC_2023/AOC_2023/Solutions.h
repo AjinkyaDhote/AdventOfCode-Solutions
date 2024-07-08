@@ -21,4 +21,7 @@ public:
 
     //Day 5 - If You Give A Seed A Fertilizer
     static void IfYouGiveASeedAFertilizer();
+
+    //Day 6 - Wait For It
+    static void WaitForIt();
 };

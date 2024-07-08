@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Day 6.cpp" />
     <ClCompile Include="Day1.cpp" />
     <ClCompile Include="Day2.cpp" />
     <ClCompile Include="Day3.cpp" />
@@ -155,13 +156,15 @@
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Cube Conundrum.txt" />
+    <Text Include="Day 2.txt" />
     <Text Include="Day 4 Example.txt" />
     <Text Include="Day 4 Input.txt" />
     <Text Include="Day 5 Example.txt" />
     <Text Include="Day 5 Input.txt" />
+    <Text Include="Day 6 Example.txt" />
+    <Text Include="Day 6 Input.txt" />
     <Text Include="Day1.txt" />
-    <Text Include="Gear Ratios.txt" />
+    <Text Include="Day 3.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
