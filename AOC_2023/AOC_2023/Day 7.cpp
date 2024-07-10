@@ -16,77 +16,180 @@ enum Type
 	TwoPair = 3,
 	ThreeOfAKind = 4,
 	FullHouse = 5, 
-	FourOfAHouse = 6, 
+	FourOfAKind = 6, 
 	FiveOfAKind = 7
 };
 
-Type GetHandType(string& hand)
+enum CardOrder
 {
-	map<char, int> m { {'A', 0}, {'K', 0}, {'Q', 0}, {'J', 0}, {'T', 0}, {'9', 0}, {'8', 0}, {'7', 0}, {'6', 0}, {'5', 0}, {'4', 0}, {'3', 0}, {'2', 0} };
+	T = 10,
+	J = 11,
+	Q = 12,
+	K = 13,
+	A = 14
+};
+
+map<char, int> m{ {'A', 0}, {'K', 0}, {'Q', 0}, {'J', 0}, {'T', 0}, {'9', 0}, {'8', 0}, {'7', 0}, {'6', 0}, {'5', 0}, {'4', 0}, {'3', 0}, {'2', 0} };
+
+int GetOrder(char c)
+{
+	if (c == 'A') return 14;
+	if (c == 'K') return 13;
+	if (c == 'Q') return 12;
+	if (c == 'J') return 11;
+	if (c == 'T') return 10;
+
+	return -1;
+}
+
+
+Type GetHandType(string& hand, bool JAsJoker = false)
+{
+	m.clear();
+	int countJoker = 0;
 	for(auto c : hand)
 	{
+		if (c == 'J')
+			countJoker++;
 		m[c]++;
 	}
 	Type type = Type::HighCard;
+	
 	for (auto it = m.begin(); it != m.end(); ++it)
-	{
-		if (it->second == 5) type = Type::FiveOfAKind;
-		if (it->second == 4) type = Type::FourOfAHouse;
-		if (it->second == 3 || (it->second == 2))
 		{
-			if (it->second == 3) //Full House or three of a Kind
+			if (type != Type::HighCard) break;
+			
+			if (it->second == 5)
 			{
-				type = Type::ThreeOfAKind;
-				auto temp = ++it;
-				temp++;
-				while (temp != m.end()) 
+				type = Type::FiveOfAKind;
+				break;
+			}
+			if (it->second == 4)
+			{
+				type = Type::FourOfAKind;
+				break;
+			}
+			if (it->second == 3 || (it->second == 2))
+			{
+				if (it->second == 3) //Full House or three of a Kind
 				{
-					if (temp->second == 2)
-					{
-						type =  Type::FullHouse;
-						break;
-					}
+					type = Type::ThreeOfAKind;
+					auto temp = it;
 					temp++;
+					while (temp != m.end())
+					{
+						if (temp->second == 2)
+						{
+							type = Type::FullHouse;
+							break;
+						}
+						temp++;
+					}
+				}
+				else if (it->second == 2) //Full House or Two of a Kind
+				{
+					type = Type::OnePair;
+					auto temp = it;
+					temp++;
+					while (temp != m.end())
+					{
+						if (temp->second == 3)
+						{
+							type = Type::FullHouse;
+							break;
+						}
+						else if (temp->second == 2)
+						{
+							type = Type::TwoPair;
+							break;
+						}
+						temp++;
+					}
 				}
 			}
-			else if (it->second == 2) //Full House or Two of a Kind
-			{
-				type = Type::OnePair;
-				auto temp = ++it;
-				while (temp != m.end())
-				{
-					if (temp->second == 3)
-					{
-						type = Type::FullHouse;
-						break;
-					}
-					else if (temp->second == 2)
-						type = Type::TwoPair;
-					else
-						type =  Type::OnePair;
+		}
+	
+	if (JAsJoker && m.find('J') != m.end())
+	{
+		int jC = m['J'];
+		if (jC == 1)
+		{
+			if (type == HighCard) type = Type::OnePair;
+			else if (type == OnePair) type = Type::ThreeOfAKind;
+			else if (type == TwoPair) type = Type::FullHouse;
+			else if (type == ThreeOfAKind) type = Type::FourOfAKind;
+			else if (type == FourOfAKind) type = Type::FiveOfAKind;
+		}
+		else if (jC == 2)
+		{
+			if (type == TwoPair) type = Type::FourOfAKind;
+			else if (type == ThreeOfAKind) type = Type::FiveOfAKind;
+			else if (type == FullHouse) type = Type::FiveOfAKind;
+		}
+		else if (jC == 3)
+		{
+			if (type == FullHouse) type = Type::FiveOfAKind;
+		}
+		if (jC == 4)
+		{
 
-					temp++;
-				}
-			}
 		}
 	}
 
 	return type;
 }
 
-void PartOne(vector<pair<string, int>>& allHands)
+
+
+bool SortHandsAscending(pair<string, int>& LeftHand, pair<string, int>& RightHand)
+{
+	//Sort Order Card - Highest To Lowest
+	//A - K - Q - J - T - 9 - 8 - 7 - 6 - 5 - 4 - 3 - 2
+	
+	const string& L = LeftHand.first;
+	const string& R = RightHand.first;
+
+	FOR(i, sz(L))
+	{
+		if (L[i] == R[i])
+			continue;
+		bool isLeftCharAlphabet = isalpha(L[i]);
+		bool isRightCharAlphabet = isalpha(R[i]);
+
+		if ( !isLeftCharAlphabet && !isRightCharAlphabet )
+		{
+			return L[i] <  R[i];
+		}
+		else if(isLeftCharAlphabet && !isRightCharAlphabet )
+		{
+			return false;
+		}
+		else if (!isLeftCharAlphabet && isRightCharAlphabet)
+		{
+			return true;
+		}
+		else
+		{
+			return GetOrder(L[i]) < GetOrder(R[i]);
+		}
+	}
+
+	return false;
+}
+
+void PartOne(vector<pair<string, int>>& allHands, bool JAsJoker = false)
 {
 	vector<pair<string, int>> FiveOfAKindBucket;
-	vector<pair<string, int>> FourOfAHouseBucket;
+	vector<pair<string, int>> FourOfAKindBucket;
 	vector<pair<string, int>> FullHouseBucket;
 	vector<pair<string, int>> ThreeOfAKindBucket;
 	vector<pair<string, int>> TwoPairBucket;
 	vector<pair<string, int>> OnePairBucket;
 	vector<pair<string, int>> HighCardBucket;
 
-	for (auto& hand : allHands)
+	for (auto& hand : allHands) 
 	{
-		Type type = GetHandType(hand.first);
+		Type type = GetHandType(hand.first, JAsJoker);
 		switch (type)
 		{
 		case Type::None:
@@ -106,8 +209,8 @@ void PartOne(vector<pair<string, int>>& allHands)
 		case Type::FullHouse:
 			FullHouseBucket.push_back({ hand.first, hand.second });
 			break;
-		case Type::FourOfAHouse:
-			FourOfAHouseBucket.push_back({ hand.first, hand.second });
+		case Type::FourOfAKind:
+			FourOfAKindBucket.push_back({ hand.first, hand.second });
 			break;
 		case Type::FiveOfAKind:
 			FiveOfAKindBucket.push_back({ hand.first, hand.second });
@@ -117,13 +220,60 @@ void PartOne(vector<pair<string, int>>& allHands)
 		}
 	}
 
+	//Start numbering from lowest.
+	std::sort(HighCardBucket.begin(), HighCardBucket.end(), SortHandsAscending);
+	std::sort(OnePairBucket.begin(), OnePairBucket.end(), SortHandsAscending);
+	std::sort(TwoPairBucket.begin(), TwoPairBucket.end(), SortHandsAscending);
+	std::sort(ThreeOfAKindBucket.begin(), ThreeOfAKindBucket.end(), SortHandsAscending);
+	std::sort(FullHouseBucket.begin(), FullHouseBucket.end(), SortHandsAscending);
+	std::sort(FourOfAKindBucket.begin(), FourOfAKindBucket.end(), SortHandsAscending);
+	std::sort(FiveOfAKindBucket.begin(), FiveOfAKindBucket.end(), SortHandsAscending);
 
+	int rank = 1;
+	long long sum = 0;
+	for (auto &card : HighCardBucket )
+	{
+		sum += card.second * rank;
+		rank++;
+	}
+	for (auto &card : OnePairBucket)
+	{
+		sum += card.second * rank;
+		rank++;
+	}
+	for (auto &card : TwoPairBucket)
+	{
+		sum += card.second * rank;
+		rank++;
+	}
+	for (auto &card : ThreeOfAKindBucket)
+	{
+		sum += card.second * rank;
+		rank++;
+	}
+	for (auto &card : FullHouseBucket)
+	{
+		sum += card.second * rank;
+		rank++;
+	}
+	for (auto &card : FourOfAKindBucket)
+	{
+		sum += card.second * rank;
+		rank++;
+	}
+	for (auto &card : FiveOfAKindBucket)
+	{
+		sum += card.second * rank;
+		rank++;
+	}
+
+	cout << "Total Winnings " << sum << "\n";
 }
 
 
 void Solutions::CamelCards()
 {
-	ifstream fs = Utilities::OpenFile("Day 7 Example.txt");
+	ifstream fs = Utilities::OpenFile("Day 7 Input.txt");
 	string hand;
 
 	vector<pair<string, int>> allHands;
@@ -135,4 +285,5 @@ void Solutions::CamelCards()
 	}
 
 	PartOne(allHands);
+	PartOne(allHands, true);
 }
