@@ -20,15 +20,6 @@ enum Type
 	FiveOfAKind = 7
 };
 
-enum CardOrder
-{
-	T = 10,
-	J = 11,
-	Q = 12,
-	K = 13,
-	A = 14
-};
-
 map<char, int> m{ {'A', 0}, {'K', 0}, {'Q', 0}, {'J', 0}, {'T', 0}, {'9', 0}, {'8', 0}, {'7', 0}, {'6', 0}, {'5', 0}, {'4', 0}, {'3', 0}, {'2', 0} };
 
 int GetOrder(char c)
@@ -37,6 +28,17 @@ int GetOrder(char c)
 	if (c == 'K') return 13;
 	if (c == 'Q') return 12;
 	if (c == 'J') return 11;
+	if (c == 'T') return 10;
+
+	return -1;
+}
+
+int GetnewOrder(char c)
+{
+	if (c == 'A') return 14;
+	if (c == 'K') return 13;
+	if (c == 'Q') return 12;
+	if (c == 'J') return 1;
 	if (c == 'T') return 10;
 
 	return -1;
@@ -56,58 +58,58 @@ Type GetHandType(string& hand, bool JAsJoker = false)
 	Type type = Type::HighCard;
 	
 	for (auto it = m.begin(); it != m.end(); ++it)
+	{
+		if (type != Type::HighCard) break;
+		
+		if (it->second == 5)
 		{
-			if (type != Type::HighCard) break;
-			
-			if (it->second == 5)
+			type = Type::FiveOfAKind;
+			break;
+		}
+		if (it->second == 4)
+		{
+			type = Type::FourOfAKind;
+			break;
+		}
+		if (it->second == 3 || (it->second == 2))
+		{
+			if (it->second == 3) //Full House or three of a Kind
 			{
-				type = Type::FiveOfAKind;
-				break;
-			}
-			if (it->second == 4)
-			{
-				type = Type::FourOfAKind;
-				break;
-			}
-			if (it->second == 3 || (it->second == 2))
-			{
-				if (it->second == 3) //Full House or three of a Kind
+				type = Type::ThreeOfAKind;
+				auto temp = it;
+				temp++;
+				while (temp != m.end())
 				{
-					type = Type::ThreeOfAKind;
-					auto temp = it;
-					temp++;
-					while (temp != m.end())
+					if (temp->second == 2)
 					{
-						if (temp->second == 2)
-						{
-							type = Type::FullHouse;
-							break;
-						}
-						temp++;
+						type = Type::FullHouse;
+						break;
 					}
+					temp++;
 				}
-				else if (it->second == 2) //Full House or Two of a Kind
+			}
+			else if (it->second == 2) //Full House or Two of a Kind
+			{
+				type = Type::OnePair;
+				auto temp = it;
+				temp++;
+				while (temp != m.end())
 				{
-					type = Type::OnePair;
-					auto temp = it;
-					temp++;
-					while (temp != m.end())
+					if (temp->second == 3)
 					{
-						if (temp->second == 3)
-						{
-							type = Type::FullHouse;
-							break;
-						}
-						else if (temp->second == 2)
-						{
-							type = Type::TwoPair;
-							break;
-						}
-						temp++;
+						type = Type::FullHouse;
+						break;
 					}
+					else if (temp->second == 2)
+					{
+						type = Type::TwoPair;
+						break;
+					}
+					temp++;
 				}
 			}
 		}
+	}
 	
 	if (JAsJoker && m.find('J') != m.end())
 	{
@@ -122,17 +124,19 @@ Type GetHandType(string& hand, bool JAsJoker = false)
 		}
 		else if (jC == 2)
 		{
-			if (type == TwoPair) type = Type::FourOfAKind;
+			if (type == OnePair) type = Type::ThreeOfAKind;
+			else if (type == TwoPair) type = Type::FourOfAKind;
 			else if (type == ThreeOfAKind) type = Type::FiveOfAKind;
 			else if (type == FullHouse) type = Type::FiveOfAKind;
 		}
 		else if (jC == 3)
 		{
-			if (type == FullHouse) type = Type::FiveOfAKind;
+			if (type == ThreeOfAKind) type = Type::FourOfAKind;
+			else if (type == FullHouse) type = Type::FiveOfAKind;
 		}
-		if (jC == 4)
+		else if (jC == 4)
 		{
-
+			if (type == FourOfAKind) type = Type::FiveOfAKind;
 		}
 	}
 
@@ -143,7 +147,7 @@ Type GetHandType(string& hand, bool JAsJoker = false)
 
 bool SortHandsAscending(pair<string, int>& LeftHand, pair<string, int>& RightHand)
 {
-	//Sort Order Card - Highest To Lowest
+	//Strength - Highest To Lowest
 	//A - K - Q - J - T - 9 - 8 - 7 - 6 - 5 - 4 - 3 - 2
 	
 	const string& L = LeftHand.first;
@@ -171,6 +175,46 @@ bool SortHandsAscending(pair<string, int>& LeftHand, pair<string, int>& RightHan
 		else
 		{
 			return GetOrder(L[i]) < GetOrder(R[i]);
+		}
+	}
+
+	return false;
+}
+
+bool SortHandsAscendingWithJoker(pair<string, int>& LeftHand, pair<string, int>& RightHand)
+{
+	//Strength - Highest To Lowest
+	//A - K - Q - T - 9 - 8 - 7 - 6 - 5 - 4 - 3 - 2 - J
+
+	const string& L = LeftHand.first;
+	const string& R = RightHand.first;
+
+	FOR(i, sz(L))
+	{
+		if (L[i] == R[i])
+			continue;
+		bool isLeftCharAlphabet = isalpha(L[i]);
+		bool isRightCharAlphabet = isalpha(R[i]);
+
+		if (!isLeftCharAlphabet && !isRightCharAlphabet) //No alphabets
+		{
+			return L[i] < R[i];
+		}
+		else if (isLeftCharAlphabet && !isRightCharAlphabet) //Left is alphabet, right is 0-9
+		{
+			if (L[i] == 'J')
+				return true;
+			return false;
+		}
+		else if (!isLeftCharAlphabet && isRightCharAlphabet) //Left 0-9. right is alphabet
+		{
+			if (R[i] == 'J')
+				return false;
+			return true;
+		}
+		else
+		{
+			return GetnewOrder(L[i]) < GetnewOrder(R[i]); // Both are alphabets
 		}
 	}
 
@@ -221,13 +265,13 @@ void PartOne(vector<pair<string, int>>& allHands, bool JAsJoker = false)
 	}
 
 	//Start numbering from lowest.
-	std::sort(HighCardBucket.begin(), HighCardBucket.end(), SortHandsAscending);
-	std::sort(OnePairBucket.begin(), OnePairBucket.end(), SortHandsAscending);
-	std::sort(TwoPairBucket.begin(), TwoPairBucket.end(), SortHandsAscending);
-	std::sort(ThreeOfAKindBucket.begin(), ThreeOfAKindBucket.end(), SortHandsAscending);
-	std::sort(FullHouseBucket.begin(), FullHouseBucket.end(), SortHandsAscending);
-	std::sort(FourOfAKindBucket.begin(), FourOfAKindBucket.end(), SortHandsAscending);
-	std::sort(FiveOfAKindBucket.begin(), FiveOfAKindBucket.end(), SortHandsAscending);
+	sort(HighCardBucket.begin(), HighCardBucket.end(), JAsJoker ? SortHandsAscendingWithJoker : SortHandsAscending);
+	sort(OnePairBucket.begin(), OnePairBucket.end(), JAsJoker ? SortHandsAscendingWithJoker : SortHandsAscending);
+	sort(TwoPairBucket.begin(), TwoPairBucket.end(), JAsJoker ? SortHandsAscendingWithJoker : SortHandsAscending);
+	sort(ThreeOfAKindBucket.begin(), ThreeOfAKindBucket.end(), JAsJoker ? SortHandsAscendingWithJoker : SortHandsAscending);
+	sort(FullHouseBucket.begin(), FullHouseBucket.end(), JAsJoker ? SortHandsAscendingWithJoker : SortHandsAscending);
+	sort(FourOfAKindBucket.begin(), FourOfAKindBucket.end(), JAsJoker ? SortHandsAscendingWithJoker : SortHandsAscending);
+	sort(FiveOfAKindBucket.begin(), FiveOfAKindBucket.end(), JAsJoker ? SortHandsAscendingWithJoker : SortHandsAscending);
 
 	int rank = 1;
 	long long sum = 0;
@@ -278,9 +322,9 @@ void Solutions::CamelCards()
 
 	vector<pair<string, int>> allHands;
 
-	while (std::getline(fs, hand))
+	while (getline(fs, hand))
 	{
-		vector<std::string> split = Utilities::ReadSpaceSeperatedString(hand);
+		vector<string> split = Utilities::ReadSpaceSeperatedString(hand);
 		allHands.push_back({split[0], stoi(split[1])});
 	}
 
