@@ -23,12 +23,17 @@ int main()
     //Solutions::IfYouGiveASeedAFertilizer();
 
     
-    //Day 6 = Wait For It
+    //Day 6 - Wait For It
     //Solutions::WaitForIt();
+
+    //Day 7 - CamelCards
+    //Solutions::CamelCards();
+
 
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    Solutions::CamelCards();
+    //Day 8 - HauntedWastelands
+    Solutions::HauntedWastelands();
 
     auto stopTime = std::chrono::high_resolution_clock::now();
 

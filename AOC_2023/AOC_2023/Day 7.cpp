@@ -221,7 +221,7 @@ bool SortHandsAscendingWithJoker(pair<string, int>& LeftHand, pair<string, int>&
 	return false;
 }
 
-void PartOne(vector<pair<string, int>>& allHands, bool JAsJoker = false)
+void Process(vector<pair<string, int>>& allHands, bool JAsJoker = false)
 {
 	vector<pair<string, int>> FiveOfAKindBucket;
 	vector<pair<string, int>> FourOfAKindBucket;
@@ -328,6 +328,6 @@ void Solutions::CamelCards()
 		allHands.push_back({split[0], stoi(split[1])});
 	}
 
-	PartOne(allHands);
-	PartOne(allHands, true);
+	Process(allHands);
+	Process(allHands, true);
 }

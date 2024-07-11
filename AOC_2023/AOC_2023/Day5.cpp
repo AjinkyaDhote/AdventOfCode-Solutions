@@ -75,6 +75,8 @@ void Solutions::IfYouGiveASeedAFertilizer()
 
     std::cout << "Part Two" << "\n";
     PartTwo(fs, seeds);
+
+    Utilities::CloseFile(fs);
 }
 
 

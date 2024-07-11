@@ -42,6 +42,8 @@ void Solutions::CubeConundrum() // 2239
     }
 
     std::cout << "Sum of ID's of possible game configurations is " << sum << std::endl;
+
+    Utilities::CloseFile(fileStream);
 }
 
 

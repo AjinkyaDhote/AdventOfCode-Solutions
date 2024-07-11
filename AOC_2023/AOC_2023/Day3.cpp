@@ -47,6 +47,7 @@ void Solutions::GearRatios()
     GearRatiosPartOne(mat);
     GearRatiosPartTwo(mat);
 
+    Utilities::CloseFile(fileStream);
 }
 
 bool FindGear(InputMat& mat, int currentRow, int currentColumn, int TotalRows, int TotalColumns, int &gearRow, int &gearCol)

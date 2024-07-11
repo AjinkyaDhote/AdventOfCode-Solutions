@@ -27,4 +27,7 @@ public:
 
     //Day 7 - CamelCards
     static void CamelCards();
+
+    //Day 7 - HauntedWastelands
+    static void HauntedWastelands();
 };
