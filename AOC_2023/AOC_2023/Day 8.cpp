@@ -25,12 +25,71 @@ void ProcessPartOne(string& directions, map<string, pair<string, string>>& nodes
 		counter++;
 	}
 
-	cout << "Required steps: " << counter << "\n";
+	std::cout << "Required steps: " << counter << "\n";
+}
+
+
+void ProcessPartTwo(string& directions, map<string, pair<string, string>>& nodes)
+{
+	int directionsLength = (int)directions.size();
+	int ptr = 0, steps = 0;
+
+	//Find all strings that end with "--A"
+	vector<string> input;
+	for (auto& node : nodes)
+	{
+		string key = node.first;
+		if (key.ends_with('A'))
+		{
+			input.push_back(key);
+		}
+	}
+
+	vector<int> allSteps;
+	while (allSteps.size() != input.size())
+	{
+		if (ptr >= directionsLength)
+			ptr = 0;
+		char direction = directions[ptr];
+		vector<string> newInput;
+		for (auto& key : input)
+		{
+			auto itr = nodes.find(key);
+			auto p = itr->second;
+			string val = direction == 'L' ? p.first : p.second;
+			if (val.ends_with('Z'))
+			{
+				allSteps.push_back(steps + 1);
+			}
+			newInput.push_back(val);
+		}
+		ptr++;
+		steps++;
+		input.clear();
+		input = newInput;
+	}
+
+	//The trick is to find the LCM of all the paths that reach '--Z' in the end. 
+	//First path takes certain steps to reach --Z
+	//Second path takes certain steps to reach --Z
+	//And so on.
+
+	//Once we find that all paths do reach --Z, to find when they will reach --Z simultaneously we will have 
+	//to take the lcm of all the steps. The input is designed in such a way that when brute forced it will take 
+	//a lot of time to reach --Z for all paths simultaneously.
+
+	long long int requiredSteps = 1;
+	for (auto s : allSteps)
+	{
+		requiredSteps = lcm(s, requiredSteps);
+	}
+
+	std::cout << "Required steps: " << requiredSteps << "\n";
 }
 
 void Solutions::HauntedWastelands()
 {
-	cout << "--- Day 8: Haunted Wastelands ---" << "\n\n";
+	std::cout << "--- Day 8: Haunted Wastelands ---" << "\n\n";
 
 	ifstream fs = Utilities::OpenFile("Day 8 Input.txt");
 	string line;
@@ -49,8 +108,8 @@ void Solutions::HauntedWastelands()
 			
 
 		vector<string> tokens = Utilities::SplitString(line, "=");
-		tokens[0].erase(3);
-		//tokens[0] is the key
+		tokens[0].erase(3); //tokens[0] is the key
+		
 
 		vector<string> values = Utilities::ReadCommaSeperatedString(tokens[1]);
 		//values [0] is L without the ' ('
@@ -66,6 +125,7 @@ void Solutions::HauntedWastelands()
 
 
 	ProcessPartOne(instructions, nodes);
+	ProcessPartTwo(instructions, nodes);
 
 	Utilities::CloseFile(fs);
 
