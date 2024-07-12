@@ -29,11 +29,13 @@ int main()
     //Day 7 - CamelCards
     //Solutions::CamelCards();
 
+    //Day 8 - HauntedWastelands
+    //Solutions::HauntedWastelands();
 
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    //Day 8 - HauntedWastelands
-    Solutions::HauntedWastelands();
+    //Day 9 - Mirage Maintenance
+    Solutions::MirageMaintenance();
 
     auto stopTime = std::chrono::high_resolution_clock::now();
 

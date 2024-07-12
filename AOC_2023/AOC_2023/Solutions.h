@@ -33,6 +33,9 @@ public:
 
     //Day 8 - HauntedWastelands
     static void HauntedWastelands();
+
+    //Day 9 - MirageMaintenance
+    static void MirageMaintenance();
 };
 
 #endif // !SOLUTIONS_H
