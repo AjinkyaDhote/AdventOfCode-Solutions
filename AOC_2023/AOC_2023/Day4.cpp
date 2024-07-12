@@ -56,9 +56,6 @@ void ScratchCardsPartOne()
             winningNumbersVec.push_back(std::stoi(wn));
         }
 
-        
-        
-
         std::vector<std::string> myNums = Utilities::ReadSpaceSeperatedString(vec[1]);
 
         for (std::string myno : myNums)
@@ -78,6 +75,8 @@ void ScratchCardsPartOne()
     }
 
     std::cout << "Scratch Cards Total Points - " << sum << std::endl;
+
+    Utilities::CloseFile(fs);
 }
 
 void ScratchCardsPartTwo()
@@ -156,6 +155,7 @@ void ScratchCardsPartTwo()
     }
 
     std::cout << "Total Scratch Cards won - " << sum << std::endl;
+    Utilities::CloseFile(fs);
 
 }
 

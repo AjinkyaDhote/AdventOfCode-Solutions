@@ -27,8 +27,8 @@ void Solutions::GearRatios()
     long int  sum = 0;
     std::getline(fileStream, line);
     int rows{ 0 }, columns{ 0 };
-    rows = line.size();
-    columns = line.size();
+    rows = (int)line.size();
+    columns = (int)line.size();
     int i = 0;
 
     InputMat mat(rows, std::vector<char>(columns));
@@ -155,13 +155,13 @@ bool FindGear(InputMat& mat, int currentRow, int currentColumn, int TotalRows, i
 void GearRatiosPartOne(InputMat& mat) // 553079
 {
     //TODO : Remove hard coded values
-    size_t rows = mat.size();
-    size_t cols = mat.size();
+    int rows = (int)mat.size();
+    int cols = (int)mat.size();
     int sum = 0;
 
-    for (size_t i = 0; i < rows; ++i)
+    for (int i = 0; i < rows; ++i)
     {
-        for (size_t j = 0; j < cols;)
+        for (int j = 0; j < cols;)
         {
             if (isdigit(mat[i][j]))
             {
@@ -293,14 +293,14 @@ bool IsAdjacentElementASpecialCharacter(InputMat& mat, int currentRow, int curre
 //A gear is any * symbol that is adjacent to exactly two part numbers.
 void GearRatiosPartTwo(InputMat& mat)
 {
-    size_t rows = mat.size();
-    size_t cols = mat.size();
+    int rows = (int)mat.size();
+    int cols = (int)mat.size();
     int sum = 0;
     std::vector<Gear> gears;
 
-    for (size_t i = 0; i < rows; ++i)
+    for (int i = 0; i < rows; ++i)
     {
-        for (size_t j = 0; j < cols;)
+        for (int j = 0; j < cols;)
         {
             if (isdigit(mat[i][j]))
             {

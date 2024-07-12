@@ -1,4 +1,7 @@
-#pragma
+#ifndef SOLUTIONS_H
+#define SOLUTIONS_H
+
+
 #include "Utilities.h"
 
 class Solutions
@@ -28,6 +31,8 @@ public:
     //Day 7 - CamelCards
     static void CamelCards();
 
-    //Day 7 - HauntedWastelands
+    //Day 8 - HauntedWastelands
     static void HauntedWastelands();
 };
+
+#endif // !SOLUTIONS_H

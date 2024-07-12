@@ -1,6 +1,6 @@
 //-- - Day 2: Cube Conundrum-- -
-
 #include "Solutions.h"
+
 struct Colors
 {
     int r = 1;

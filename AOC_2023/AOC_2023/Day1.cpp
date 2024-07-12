@@ -194,4 +194,6 @@ void Solutions::SumOfRealCalibrationValues() //55902 Time - 2hrs
     }
 
     std::cout << "Day1: Sum of all of the real calibration values - " << sum << std::endl;
+
+    Utilities::CloseFile(fileStream);
 }

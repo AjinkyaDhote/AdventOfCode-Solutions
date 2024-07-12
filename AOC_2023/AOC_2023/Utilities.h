@@ -1,4 +1,6 @@
-#pragma once
+#ifndef UTILITIES_H
+#define UTILITIES_H
+
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -22,19 +24,24 @@
 #define sz(x) (int)(x.size()) 
 #define FOR(i, R) for (int i = (0) ; i < (R) ; ++i)
 #define FORLR(i, L, R) for(int i = (L) ; i <= (R) ; ++i)
+constexpr const char* ws = " \t\n\r\f\v";
 
 class Utilities
 {
 public:
+    
+    //string operations
     static std::vector<std::string> SplitString(const std::string& String, const std::string& Delimiter);
     static std::vector<std::string> ReadCommaSeperatedString(const std::string& string);
     static std::vector<std::string> ReadSpaceSeperatedString(const std::string& string);
-    static std::string Trim(const std::string& str, const char c);
+    static std::string& Ltrim(std::string& str, const char* c = ws);
+    static std::string& Rtrim(std::string& str, const char* c = ws);
+    static std::string& trim(std::string& str, const char* c = ws);
     
     //File Handling
     static std::ifstream OpenFile(std::string filePath);
     static void CloseFile(std::ifstream& file);
-    
-    //Error Handling
-    static void HandleError(int errNumber);
 };
+
+
+#endif // !UTILITIES_H

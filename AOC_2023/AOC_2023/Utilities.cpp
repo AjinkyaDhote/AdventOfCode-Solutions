@@ -53,6 +53,32 @@ std::vector<std::string> Utilities::ReadSpaceSeperatedString(const std::string& 
     return Tokens;
 }
 
+/// <summary>
+/// Trim from front of the string (Left)
+/// </summary>
+std::string& Utilities::Ltrim(std::string& str, const char* c)
+{
+    str.erase(0, str.find_first_not_of(c));
+    return str;
+}
+
+/// <summary>
+/// Trim from back of the string (Right)
+/// </summary>
+std::string& Utilities::Rtrim(std::string& str, const char* c)
+{
+    str.erase(str.find_last_not_of(c));
+    return str;
+}
+
+/// <summary>
+/// Trim from both ends of the string (Right then Left)
+/// </summary>
+std::string& Utilities::trim(std::string& str, const char* c)
+{
+    return Ltrim(Rtrim(str, c), c);
+}
+
 
 std::ifstream Utilities::OpenFile(std::string filePath)
 {
@@ -61,7 +87,6 @@ std::ifstream Utilities::OpenFile(std::string filePath)
     {
         return file;
     }
-
     perror(("error while opening file " + filePath).c_str());
     exit(EXIT_FAILURE);
 }
