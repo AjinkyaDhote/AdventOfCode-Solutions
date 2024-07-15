@@ -19,6 +19,7 @@
 #include <unordered_set>
 #include <cctype>
 #include <iterator>
+#include <stack>
 
 //Defines
 #define sz(x) (int)(x.size()) 

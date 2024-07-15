@@ -36,6 +36,9 @@ public:
 
     //Day 9 - MirageMaintenance
     static void MirageMaintenance();
+
+    //Day 10 - 
+    static void PipeMaze();
 };
 
 #endif // !SOLUTIONS_H

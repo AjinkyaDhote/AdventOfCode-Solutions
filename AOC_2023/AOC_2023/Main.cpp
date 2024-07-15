@@ -32,10 +32,13 @@ int main()
     //Day 8 - HauntedWastelands
     //Solutions::HauntedWastelands();
 
+    //Day 9 - Mirage Maintenance
+    //Solutions::MirageMaintenance();
+
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    //Day 9 - Mirage Maintenance
-    Solutions::MirageMaintenance();
+    //Day 10 - 
+    Solutions::PipeMaze();
 
     auto stopTime = std::chrono::high_resolution_clock::now();
 

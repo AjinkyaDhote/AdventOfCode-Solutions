@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Day 10.cpp" />
     <ClCompile Include="Day 6.cpp" />
     <ClCompile Include="Day 7.cpp" />
     <ClCompile Include="Day 8.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Day 10 Example.txt" />
     <Text Include="Day 2.txt" />
     <Text Include="Day 4 Example.txt" />
     <Text Include="Day 4 Input.txt" />
