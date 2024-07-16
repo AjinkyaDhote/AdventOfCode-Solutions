@@ -37,7 +37,7 @@ pair<int32_t, int32_t> Process(vector<int32_t> history)
 	}
 	
 	
-	for (int i = sequences.size() - 1; i >= 0; i--)
+	for (int i = (int)sequences.size() - 1; i >= 0; i--)
 	{
 		ret.second = sequences[i][0] - ret.second;
 	}

@@ -35,11 +35,15 @@ int main()
     //Day 9 - Mirage Maintenance
     //Solutions::MirageMaintenance();
 
-    auto startTime = std::chrono::high_resolution_clock::now();
-
     //Day 10 - 
-    Solutions::PipeMaze();
+    //Solutions::PipeMaze();
 
+   
+    //Day 11 -
+    auto startTime = std::chrono::high_resolution_clock::now();
+    
+    Solutions::Day11();
+    
     auto stopTime = std::chrono::high_resolution_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stopTime - startTime);
