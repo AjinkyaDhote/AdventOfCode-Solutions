@@ -8,8 +8,8 @@ typedef vector<vector<char>> InputMat;
 
 struct Node
 {
-	int x, y;
-	string from, to;
+	int x = -1, y = -1;
+	string from = "", to = "";
 };
 
 
@@ -81,11 +81,6 @@ Node GetStartingDirection(InputMat& maze, int r, int c, int Rows, int Cols)
 
 Node FindNextNodeInLoop(InputMat& maze, Node& node,  int Rows, int Cols)
 {
-	char north = 0;
-	char east = 0;
-	char south = 0;
-	char west = 0;
-
 	int currentRow = node.x;
 	int currentCol = node.y;
 	string from = node.from;
@@ -93,100 +88,194 @@ Node FindNextNodeInLoop(InputMat& maze, Node& node,  int Rows, int Cols)
 	
 	char currentChar = maze[currentRow][currentCol];
 	
-	//if (to == "north")
-	//{
-	//	switch (currentChar)
-	//	{
-	//	case '|':
-	//		node.x = currentRow - 1;
-	//		node.y = currentCol;
-	//		node.to = "north";
-	//	case '7':
-	//		node.x = currentRow;
-	//		node.y = currentCol;
-	//	case 'F':
-	//		
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
-	//else if (to == "east")
-	//{
-	//	switch (currentChar)
-	//	{
-	//	case '-':
-	//		node.x = currentRow;
-	//		node.y = currentCol + 1;
-	//		node.to = "east";
-	//		break;
-	//	case '7':
-	//		node.x = currentRow + 1;
-	//		node.y = currentCol;
-	//		node.to = "south";
-	//	case 'J':
-	//		node.x = currentRow - 1;
-	//		node.y = currentCol;
-	//		node.to = "north";
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
-	//else if (to == "south")
-	//{
-	//	switch (currentChar)
-	//	{
-	//	case '|':
-	//	case 'F':
-	//	case '7':
-	//		node.x = currentRow + 1;
-	//		node.y = currentCol;
-	//		break;
+	if (to == "north")
+	{
+		switch (currentChar)
+		{
+		case '|':
+			node.x = currentRow - 1;
+			node.y = currentCol;
+			node.to = "north";
+			break;
+		case '7':
+			node.x = currentRow;
+			node.y = currentCol - 1;
+			node.to = "west";
+			break;
+		case 'F':
+			node.x = currentRow;
+			node.y = currentCol + 1;
+			node.to = "east";
+			break;
+		default:
+			break;
+		}
+	}
+	else if (to == "east")
+	{
+		switch (currentChar)
+		{
+		case '-':
+			node.x = currentRow;
+			node.y = currentCol + 1;
+			node.to = "east";
+			break;
+		case '7':
+			node.x = currentRow + 1;
+			node.y = currentCol;
+			node.to = "south";
+			break;
+		case 'J':
+			node.x = currentRow - 1;
+			node.y = currentCol;
+			node.to = "north";
+			break;
+		default:
+			break;
+		}
+	}
+	else if (to == "south")
+	{
+		switch (currentChar)
+		{
+		case '|':
+			node.x = currentRow + 1;
+			node.y = currentCol;
+			node.to = "south";
+			break;
+		case 'J':
+			node.x = currentRow;
+			node.y = currentCol - 1;
+			node.to = "west";
+			break;
+		case 'L':
+			node.x = currentRow;
+			node.y = currentCol + 1;
+			node.to = "east";
+			break;
 
-	//	default:
-	//		break;
-	//	}
-	//}
-	//else if (to == "west")// west
-	//{
-	//	switch (currentChar)
-	//	{
-	//	case '-':
-	//	case 'J':
-	//	case '7':
-	//		node.x = currentRow;
-	//		node.y = currentCol - 1;
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
+		default:
+			break;
+		}
+	}
+	else if (to == "west")// west
+	{
+		switch (currentChar)
+		{
+		case '-':
+			node.x = currentRow;
+			node.y = currentCol - 1;
+			node.to = "west";
+			break;
+		case 'L':
+			node.x = currentRow - 1;
+			node.y = currentCol;
+			node.to = "north";
+			break;
+		case 'F':
+			node.x = currentRow + 1;
+			node.y = currentCol;
+			node.to = "south";
+			break;
+		default:
+			break;
+		}
+	}
 
 	return node;
 }
 
-void Process(InputMat& maze, int startRow, int startCol, int TotalRows, int TotalCols)
+bool GetEdgeIntersectionCount(InputMat& maze, vector<pair<int, int>>& edges, int x, int y, int TotalRows, int TotalCols)
 {
-	stack<char> st;
-	int row = startRow;
-	int col = startCol;
+	//Ray casting algorithm. Shoot a horizontal ray from the point to check how many times it intersets the polygon.
+	//If the count is even, the point is outside the polygon. If the count is odd it is inside the polygon.
+	int intersectionCount = 0, blockingTiles = 0;
+	int nCount = 0, sCount = 0;
+	while (y < TotalCols)
+	{
+		pair<int, int> p{x, y};
+		
+		if (find(edges.begin(), edges.end(), p)!= edges.end())
+		{
+			char c = maze[x][y];				
+			if (c == '|') { nCount++; sCount++; } //See if we are blocked by north or south pipe and increment them likewise.
+			else if (c == 'F' || c == '7')
+				sCount++;
+			else if (c == 'L' || c == 'J')
+				nCount++;
+		}
+		y++;
+	}
+
+	blockingTiles = min(nCount, sCount); //Get the min of north blocking and south blocking pipes
+	if (blockingTiles % 2 != 0) //If the count is odd point lies inside, otherwise point lies outside the loop.
+		return true;
+	return false;
+}
+
+void Process(InputMat& maze, Node& startNode, int TotalRows, int TotalCols)
+{
+	vector<pair <int, int>> edges;
 	bool looped = false;
+
+	int startRow = startNode.x;
+	int startCol = startNode.y;
+	edges.push_back({ startRow, startCol }); //Push back the starting node.
+
 	Node node = GetStartingDirection(maze, startRow, startCol, TotalRows, TotalCols);
-	st.push(maze[node.x][node.y]);
+	string startDirection = node.to;
+	edges.push_back({ node.x, node.y });
+
+	//Part One
 	while (!looped)
 	{
 		node = FindNextNodeInLoop(maze, node, TotalRows, TotalCols);
 		char nextChar = maze[node.x][node.y];
-		st.push(nextChar);
+		edges.push_back({ node.x, node.y });
+		looped = nextChar == 'S';
+	}
+	
+	string endDirection = node.to;
+
+	std::cout << "Steps to reach farthest point from starting position - " << edges.size() / 2 << "\n";
+
+
+	//Part Two
+
+	//We need to replace 'S' with the right pipe based on where we started and where we ended.
+	if ((startDirection == "north") && endDirection == "east")
+		maze[startRow][startCol] = 'L';
+	else if ((startDirection == "north") && endDirection == "west")
+		maze[startRow][startCol] = 'J';
+	else if ((startDirection == "south") && endDirection == "west")
+		maze[startRow][startCol] = '7';
+	else if ((startDirection == "south") && endDirection == "east")
+		maze[startRow][startCol] = 'F';
+	else if ((startDirection == "north") || (startDirection == "south") &&
+		(endDirection == "north") || (endDirection == "south"))
+		maze[startRow][startCol] = '|';
+	else maze[startRow][startCol] = '-';
+
+	int pointsInsideTheLoop = 0;
+	for (int i = 0; i < TotalRows; i++)
+	{
+		for (int j = 0; j < TotalCols; j++)
+		{
+			pair<int, int> p{ i, j };
+			if (find (edges.begin(), edges.end(), p) != edges.end()) //If we are an edge, skip
+				continue;
+			if (GetEdgeIntersectionCount(maze, edges, i, j, TotalRows, TotalCols))
+				pointsInsideTheLoop++;
+		}
 	}
 
+	std::cout << "Number of points inside the loop - " << pointsInsideTheLoop << "\n";
 }
 
 
 void Solutions::PipeMaze()
 {
-	ifstream fs = Utilities::OpenFile("Day 10 Example.txt");
+	ifstream fs = Utilities::OpenFile("Day 10 Input.txt");
 
 	//Read the map
 	string line;
@@ -215,6 +304,9 @@ void Solutions::PipeMaze()
 		}
 		i++;
 	}
+	Node startNode;
+	startNode.x = startRow;
+	startNode.y = startCol;
 
-	Process(maze, startRow, startCol, rows, cols);
+	Process(maze, startNode, rows, cols);
 }
