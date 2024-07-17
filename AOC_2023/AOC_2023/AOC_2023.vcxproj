@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="Day 10.cpp" />
     <ClCompile Include="Day 11.cpp" />
+    <ClCompile Include="Day 12.cpp" />
     <ClCompile Include="Day 6.cpp" />
     <ClCompile Include="Day 7.cpp" />
     <ClCompile Include="Day 8.cpp" />

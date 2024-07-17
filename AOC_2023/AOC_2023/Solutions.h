@@ -40,8 +40,11 @@ public:
     //Day 10 - PipeMaze
     static void PipeMaze();
 
-    //Day 11 - 
-    static void Day11();
+    //Day 11 - CosmicExplosion
+    static void CosmicExplosion();
+
+    //Day 12 - 
+    static void Day12();
 
 };
 

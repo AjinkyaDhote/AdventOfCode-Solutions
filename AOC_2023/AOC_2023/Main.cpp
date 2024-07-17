@@ -22,7 +22,6 @@ int main()
     //Day 5 - Day 5: If You Give A Seed A Fertilizer
     //Solutions::IfYouGiveASeedAFertilizer();
 
-    
     //Day 6 - Wait For It
     //Solutions::WaitForIt();
 
@@ -35,15 +34,16 @@ int main()
     //Day 9 - Mirage Maintenance
     //Solutions::MirageMaintenance();
 
-    //Day 10 - 
+    //Day 10 - Pipe Maze 
     //Solutions::PipeMaze();
 
-   
-    //Day 11 -
+    //Day 11 - Cosmic Expolsion 
+    //Solutions::CosmicExplosion();
+    
+    //Day 12 -
     auto startTime = std::chrono::high_resolution_clock::now();
-    
-    Solutions::Day11();
-    
+    Solutions::Day12();
+
     auto stopTime = std::chrono::high_resolution_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stopTime - startTime);

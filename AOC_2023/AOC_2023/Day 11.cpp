@@ -69,7 +69,7 @@ void ProcessPartTwo(Markers& markers, vector<int>& rowsExpanded, vector<int>& co
 }
 
 
-void Solutions::Day11()
+void Solutions::CosmicExplosion()
 {
 	ifstream fs = Utilities::OpenFile("Day 11 Input.txt");
 	string line;
