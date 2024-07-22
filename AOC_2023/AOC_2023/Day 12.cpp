@@ -18,43 +18,26 @@
 
 using namespace std;
 
-int SolvePartOne(string record, vector<int> groups);
+int Calculate(string record, vector<int> groups);
 
-int CheckValidString(string& s, vector<int>& groups)
+void Print(string record, vector<int> groups, int ret)
 {
-	bool isValid = 0;
-	size_t position = 0;
+	cout << record << " " << "[";
 	for (int i = 0; i < groups.size(); i++)
 	{
-		//Check if the string satisfies our condition for broken springs.
-		int count = groups[i];
-		//Create a substring
-		string substr = "";
-
-		position = s.find('#', position);
-		if (position != s.npos)
-		{
-			//Check if group is valid	
-			int j = position + 1;
-			while (count > 0 && j != s.npos)
-			{
-				if (s[j] != '#')
-					break;
-				count--;
-			}
-		}
+		cout << groups[i] << ",";
 	}
-
-	return isValid ? 1 : 0;
+	cout << "] " << "Possible Arrangements: " << ret << "\n";
 }
 
-
+//First character is a dot.
+//We skip over the dot to look for the next pound.
+//example (record = "...###..", groups=(3,)) --> we skip the dot and recursively call for (record = "..##..", groups=(3,))
 int SolveDot(string record, vector<int> groups)
 {
 	string substr = record.substr(1, record.size());
-	return SolvePartOne(substr, groups);
+	return Calculate(substr, groups);
 }
-
 
 int SolvePound(string record, vector<int> groups, int nextGroup)
 {
@@ -66,17 +49,22 @@ int SolvePound(string record, vector<int> groups, int nextGroup)
 	if (currentRecord.size() != nextGroup)
 		return 0;
 
+	int count = 0;
+	size_t pos = currentRecord.find('#', 0);
+	while (pos != string::npos)
+	{
+		pos = currentRecord.find('#', pos+1);
+		count++;
+	}
+		
+	if (count != nextGroup)
+		return 0;
+
 	if (record.size() == nextGroup)
 	{
 		if (groups.size() == 1) //Last Group?
-		{
-			//Check if all are either '#' or '?'
-			size_t pos = record.find('.');
-			if (pos != record.npos)
-				return 0;
 			return 1;
-		}
-			
+
 		return 0;
 	}
 
@@ -84,88 +72,48 @@ int SolvePound(string record, vector<int> groups, int nextGroup)
 	{
 		string substr = record.substr(nextGroup + 1, record.size());
 		groups.erase(groups.begin());
-		return SolvePartOne(substr, groups);
+		return Calculate(substr, groups);
 	}
 
 	return 0;
 }
 
-int SolvePartOne(string record, vector<int> groups)
+
+
+int Calculate(string record, vector<int> groups)
 {
 	//Base case
-	if (groups.size() == 0) 
+	if (groups.empty()) 
 		return (record.find('#') == record.npos) ? 1 : 0;
 
 	if (record.empty()) //We have groups but we do not have records to check.
-		return (groups.empty()) ? 1 : 0;
+		return 0;
 
 	char nextCharacter = record[0];
 	int nextGroup = groups[0];
 	int ret = 0;
 	
 	if (nextCharacter == '#')
-	{
 		ret = SolvePound(record, groups, nextGroup);
-	}
+
 	else if (nextCharacter == '.')
-	{
 		ret = SolveDot(record, groups);
-	}
+
 	else if (nextCharacter == '?')
-	{
 		ret =  SolveDot(record, groups) + SolvePound(record, groups, nextGroup);
-	}
-	else
-	{
-		//Invalid
-	}
+
+	else {/*Invalid*/}
 	
-	cout << record << " " << "[";
-	for (int i = 0; i < groups.size(); i++)
-	{
-		cout << groups[i] << ",";
-	}
-	cout << "] " << "Possible Arrangements: " << ret << "\n";
+	//Print(record, groups, ret);
 
 	return ret;
 }
-
-
-int32_t FindArrangementsForSequence(pair<string, string> spring)
-{
-	string seq = spring.first;
-	
-	vector<string> groupsString = Utilities::ReadCommaSeperatedString(spring.second);
-	vector<int> groups;
-
-	for (auto numStr : groupsString)
-	{
-		groups.push_back(stoi(numStr));
-	}
-
-
-	int32_t damaged = 0, operational = 0, unknown = 0;  //damage - '#', operational = '.', unknown = '?'
-
-	for (auto c : seq)
-	{
-		if (c == '#')
-			damaged++;
-		else if (c == '.')
-			operational++ ;
-		else
-			unknown++;
-	}
-
-	return SolvePartOne(seq, groups);
-	
-}
-
 
 void Solutions::Day12()
 {
 	vector<pair<string, string>> mp;
 	int32_t sum = 0;
-	ifstream fs = Utilities::OpenFile("Day 12 Example.txt");
+	ifstream fs = Utilities::OpenFile("Day 12 Input.txt");
 	string line;
 
 	while (getline(fs, line))
@@ -173,7 +121,6 @@ void Solutions::Day12()
 		vector<string> split = Utilities::ReadSpaceSeperatedString(line);
 		mp.push_back({split[0], split[1]});	
 	}
-
 
 	for (auto& spring : mp)
 	{
@@ -185,11 +132,11 @@ void Solutions::Day12()
 			groups.push_back(stoi(numStr));
 		}
 		
-		int32_t arrangements = SolvePartOne(spring.first, groups);
+		int32_t arrangements = Calculate(spring.first, groups);
 		cout << spring.first << " " << "[" << spring.second << "] " << "Possible Arrangements: " << arrangements << "\n";
 		sum += arrangements;
 	}
 	
 	cout << "The sum of different arrangements - " << sum << "\n";
-
+	Utilities::CloseFile(fs);
 }
