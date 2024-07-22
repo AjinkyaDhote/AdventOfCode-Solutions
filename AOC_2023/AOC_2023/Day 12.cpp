@@ -21,12 +21,12 @@ int Calculate(string record, vector<int> groups);
 
 void Print(string record, vector<int> groups, int ret)
 {
-	cout << record << " " << "[";
+	std::cout << record << " " << "[";
 	for (int i = 0; i < groups.size(); i++)
 	{
-		cout << groups[i] << ",";
+		std::cout << groups[i] << ",";
 	}
-	cout << "] " << "Possible Arrangements: " << ret << "\n";
+	std::cout << "] " << "Possible Arrangements: " << ret << "\n";
 }
 
 //First character is a dot.
@@ -110,14 +110,14 @@ int Calculate(string record, vector<int> groups)
 	else if (nextCharacter == '?')
 		ret =  SolveDot(record, groups) + SolvePound(record, groups, nextGroup);
 
-	//Print(record, groups, ret);
+	Print(record, groups, ret);
 	return ret;
 }
 
 void Solutions::Day12()
 {
-	int32_t sum = 0;
-	ifstream fs = Utilities::OpenFile("Day 12 Input.txt");
+	int32_t sum = 0, arrangements = 0;
+	ifstream fs = Utilities::OpenFile("Day 12 Example.txt");
 	string line;
 
 	while (getline(fs, line))
@@ -125,14 +125,53 @@ void Solutions::Day12()
 		vector<string> split = Utilities::ReadSpaceSeperatedString(line);
 		vector<string> groupsString = Utilities::ReadCommaSeperatedString(split[1]);
 		vector<int> groups;
+
 		for (auto numStr : groupsString)
 			groups.push_back(stoi(numStr));
 
-		int32_t arrangements = Calculate(split[0], groups);
-		//cout << split[0] << " " << "[" << split[1] << "] " << "Possible Arrangements: " << arrangements << "\n";
+		arrangements = Calculate(split[0], groups);
+		std::cout << split[0] << " " << "[" << split[1] << "] " << "Possible Arrangements: " << arrangements << "\n";
 		sum += arrangements;
 	}
-	
-	cout << "The sum of different arrangements - " << sum << "\n";
+		
+	std::cout << "The sum of different arrangements - " << sum << "\n";
+
+	//std::cout << "\n\n" << "------------------------------------------------------------------------------------------------" << "\n";
+	//std::cout << "Part Two" << "\n";
+
+	//fs.clear();
+	//fs.seekg(0);
+	//line = "";
+	//sum = 0, arrangements = 0;
+
+	//while(getline(fs, line))
+	//{
+	//	vector<string> split = Utilities::ReadSpaceSeperatedString(line);
+	//	vector<string> groupsString = Utilities::ReadCommaSeperatedString(split[1]);
+	//	vector<int> groups;
+
+	//	string str = "";
+	//	for (int i = 0; i < 5; ++i)
+	//	{
+	//		for (auto ch : split[0])
+	//			str += ch;
+	//		if (i < 4)
+	//			str += '?';
+	//	}
+
+	//	for (int i = 0; i < 5; ++i)
+	//	{
+	//		for (auto numStr : groupsString)
+	//			groups.push_back(stoi(numStr));
+	//	}
+
+	//	arrangements = Calculate(str, groups);
+	//	Print(str, groups, arrangements);
+	//	//cout << str << " " << "[" << groups << "] " << "Possible Arrangements: " << arrangements << "\n";
+	//	sum += arrangements;
+	//}
+
+	//std::cout << "The sum of different arrangements - " << sum << "\n";
+
 	Utilities::CloseFile(fs);
 }
