@@ -40,33 +40,44 @@ int SolveDot(string record, vector<int> groups)
 
 int SolvePound(string record, vector<int> groups, int nextGroup)
 {
-	//Process '#' andd call SolvePartOne
 	//If first character is #, then the first group number is expected to follow i.e if groups[0] = 3, then the sequence should be ###
 	string currentRecord = record.substr(0, nextGroup);
 	replace(currentRecord.begin(), currentRecord.end(), '?', '#'); //replace all '?' to '#'
 
-	if (currentRecord.size() != nextGroup)
+	//if the size of our currentRecord is not equal to next Group, then return 0;
+	if (currentRecord.size() != nextGroup) 
 		return 0;
 
-	int count = 0;
-	size_t pos = currentRecord.find('#', 0);
-	while (pos != string::npos)
+	//This sections checks if '#' count in our currentRecord is equal to the next group count.
+	//i.e Let currentRecord = "##." and nextGroup = 3, this satisfies the if condition above but is not a valid record
+	//We need currentRecord = "###" where count of # is 3, which is a valid record and satisfies our condition.
 	{
-		pos = currentRecord.find('#', pos+1);
-		count++;
-	}
-		
-	if (count != nextGroup)
-		return 0;
+		int count = 0;
+		size_t pos = currentRecord.find('#', 0);
+		while (pos != string::npos)
+		{
+			pos = currentRecord.find('#', pos + 1);
+			count++;
+		}
 
+		if (count != nextGroup)
+			return 0;
+	}
+	
+	//if rest of the record is just the last group, then we are done and there should only be 
+	//one possibility
 	if (record.size() == nextGroup)
 	{
+		//If the groups we are checking is the last group, the we are valid.
 		if (groups.size() == 1) //Last Group?
 			return 1;
 
+		//There are more groups hence we cannot make it work.
 		return 0;
 	}
 
+	//The character which follows our valid record must be a '?' or a '.'
+	//It will be treated as a separator for our valid current record. After that we find the next record and pass in the next group int.
 	if (record[nextGroup] == '?' || record[nextGroup] == '.')
 	{
 		string substr = record.substr(nextGroup + 1, record.size());
