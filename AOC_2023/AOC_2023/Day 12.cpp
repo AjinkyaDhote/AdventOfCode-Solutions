@@ -15,7 +15,6 @@
 
 //So the idea is '?' can be replaced with either a '.' or '#' and we then check if the string passed is valid.
 
-
 using namespace std;
 
 int Calculate(string record, vector<int> groups);
@@ -78,8 +77,6 @@ int SolvePound(string record, vector<int> groups, int nextGroup)
 	return 0;
 }
 
-
-
 int Calculate(string record, vector<int> groups)
 {
 	//Base case
@@ -102,16 +99,12 @@ int Calculate(string record, vector<int> groups)
 	else if (nextCharacter == '?')
 		ret =  SolveDot(record, groups) + SolvePound(record, groups, nextGroup);
 
-	else {/*Invalid*/}
-	
 	//Print(record, groups, ret);
-
 	return ret;
 }
 
 void Solutions::Day12()
 {
-	vector<pair<string, string>> mp;
 	int32_t sum = 0;
 	ifstream fs = Utilities::OpenFile("Day 12 Input.txt");
 	string line;
@@ -119,21 +112,13 @@ void Solutions::Day12()
 	while (getline(fs, line))
 	{
 		vector<string> split = Utilities::ReadSpaceSeperatedString(line);
-		mp.push_back({split[0], split[1]});	
-	}
-
-	for (auto& spring : mp)
-	{
-		vector<string> groupsString = Utilities::ReadCommaSeperatedString(spring.second);
+		vector<string> groupsString = Utilities::ReadCommaSeperatedString(split[1]);
 		vector<int> groups;
-
 		for (auto numStr : groupsString)
-		{
 			groups.push_back(stoi(numStr));
-		}
-		
-		int32_t arrangements = Calculate(spring.first, groups);
-		cout << spring.first << " " << "[" << spring.second << "] " << "Possible Arrangements: " << arrangements << "\n";
+
+		int32_t arrangements = Calculate(split[0], groups);
+		//cout << split[0] << " " << "[" << split[1] << "] " << "Possible Arrangements: " << arrangements << "\n";
 		sum += arrangements;
 	}
 	
