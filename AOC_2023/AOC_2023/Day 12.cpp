@@ -1,6 +1,7 @@
 #include "Solutions.h"
 
 
+
 //You have a bunch of unknown characters("?") where you have two choices, replace it with a "." or replace it with a "#".
 // Thus, to compute every possible permutation you would need to make every possible choice.
 //
@@ -136,6 +137,8 @@ void Solutions::Day12()
 		
 	std::cout << "The sum of different arrangements - " << sum << "\n";
 
+
+	//https://github.com/crunkyball/AdventOfCode2023/blob/main/Source/Days/Day12.cpp
 	//std::cout << "\n\n" << "------------------------------------------------------------------------------------------------" << "\n";
 	//std::cout << "Part Two" << "\n";
 
