@@ -69,9 +69,15 @@ int SolvePound(string record, vector<int> groups, int nextGroup)
 	if (record.size() == nextGroup)
 	{
 		if (groups.size() == 1) //Last Group?
+		{
+			//Check if all are either '#' or '?'
+			size_t pos = record.find('.');
+			if (pos != record.npos)
+				return 0;
 			return 1;
-		else
-			return 0;
+		}
+			
+		return 0;
 	}
 
 	if (record[nextGroup] == '?' || record[nextGroup] == '.')
@@ -87,22 +93,16 @@ int SolvePound(string record, vector<int> groups, int nextGroup)
 int SolvePartOne(string record, vector<int> groups)
 {
 	//Base case
-	if (groups.size() == 0)
-	{
-		size_t pos = record.find('#');
-		if (pos == record.npos)
-			return 1;
-		else
-			return 0; //More damaged springs we cannot fit 
-	}
+	if (groups.size() == 0) 
+		return (record.find('#') == record.npos) ? 1 : 0;
 
 	if (record.empty()) //We have groups but we do not have records to check.
-		return 0;
+		return (groups.empty()) ? 1 : 0;
 
 	char nextCharacter = record[0];
 	int nextGroup = groups[0];
 	int ret = 0;
-
+	
 	if (nextCharacter == '#')
 	{
 		ret = SolvePound(record, groups, nextGroup);
@@ -120,8 +120,12 @@ int SolvePartOne(string record, vector<int> groups)
 		//Invalid
 	}
 	
-
-	//cout << record << " " << "[" << spring.second << "] " << "Possible Arrangements: " << arrangements << "\n";
+	cout << record << " " << "[";
+	for (int i = 0; i < groups.size(); i++)
+	{
+		cout << groups[i] << ",";
+	}
+	cout << "] " << "Possible Arrangements: " << ret << "\n";
 
 	return ret;
 }
