@@ -41,8 +41,11 @@ int main()
     //Solutions::CosmicExplosion();
     
     //Day 12 -
+    //Solutions::Day12();
+
     auto startTime = std::chrono::high_resolution_clock::now();
-    Solutions::Day12();
+    //Day 13 - 
+    Solutions::PointOfIncidence();
 
     auto stopTime = std::chrono::high_resolution_clock::now();
 

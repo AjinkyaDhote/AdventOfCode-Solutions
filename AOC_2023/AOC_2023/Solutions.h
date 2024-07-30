@@ -3,7 +3,7 @@
 
 
 #include "Utilities.h"
-
+using namespace std;
 class Solutions
 {
 public:
@@ -45,6 +45,9 @@ public:
 
     //Day 12 - 
     static void Day12();
+
+    //Day 13 - 
+    static void PointOfIncidence();
 
 };
 
