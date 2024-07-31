@@ -4,143 +4,114 @@
 
 typedef vector<vector<char>> InputMat;
 
-//Wrong answers - 32218
+//Wrong answers - 32218, 36118, 35118
 
-int FindPointOfIncidence(InputMat& mat, int rows, int cols)
+int Process(InputMat& mat, int rows, int cols, bool rotated = false)
 {
 	//Check vertical
 	int x, y = -1;
-	bool verticalReflectionFound = false, horizontalReflectionFound = false, perfectReflection = false; //it is perfect reflection if one of the edges is included.
-
-	for (int col = 0; col < cols; col++)
+	bool perfectReflection = false; //it is perfect reflection if one of the edges is included.
+	for (int col = 0; col < cols - 1; col++)
 	{
-		if (perfectReflection)
-			break;
 		int colIter = col + 1;
-		while (colIter < cols)
-		{
-			if (perfectReflection)
-				break;
-			bool found = true;
-			for(int i = 0; i < rows; i++)
-			{
-				if (mat[i][col] != mat[i][colIter])
-				{
-					found = false;
-					break;
-				}
-			}
-			if (found)
-			{
-				int front = col - 1;
-				int back = colIter + 1;
-				//We found two columns which are identical and the reflection line might be between them.
-				//To check this we now move both the cols in opposite direction till we reach the edge.
-				//If edge is detected than this is a valid mirror. Otherwise we continue.
-				bool perfect = true;
-				while (front >= 0 && back < cols)
-				{
-					for (int i = 0; i < rows; i++)
-					{
-						if (mat[i][front] != mat[i][back])
-						{
-							perfect = false;
-							break;
-						}
-					}
-					if (!perfect || front == 0 || back == cols)
-						break;
-					front--;
-					back++;
-				}
-				if ((col == 0 || colIter == cols - 1) ||
-				(perfect && (front == 0 || back == cols)))
-				{
-					x = col;
-					y = colIter;
-					perfectReflection = true;
-					verticalReflectionFound = true;
-				}
-			}
-			col++;
-			colIter++;
-		}
-	}
+		bool equal = true;
 
-	if (!perfectReflection)//check horizontal
-	{
 		for (int row = 0; row < rows; row++)
 		{
-			if (perfectReflection)
-				break;
-			int rowIter = row + 1;
-			while (rowIter < rows)
+			if (mat[row][col] != mat[row][colIter])
 			{
-				if (perfectReflection)
-					break;
-				bool found = true;
-				for (int j = 0; j < cols; j++)
+				equal = false;
+				break;
+			}
+		}
+
+		if (equal)
+		{
+			if (col == 0 || colIter == cols) //we have the edge
+			{
+				x = col;
+				y = colIter;
+				perfectReflection = true;
+				break;
+			}
+
+			int colfront = col - 1;
+			int colback = colIter + 1;
+			bool same = true;
+			while (colfront >= 0 && colback < cols)
+			{
+				for (int row = 0; row < rows; row++)
 				{
-					if (mat[row][j] != mat[rowIter][j])
+					if (mat[row][colfront] != mat[row][colback])
 					{
-						found = false;
+						same = false;
 						break;
 					}
 				}
-				if (found)
+				if (same)
 				{
-					int front = row - 1;
-					int back = rowIter + 1;
-					//We found two rows which are identical and the reflection line might be between them.
-					//To check this we now move both the rows in opposite direction till we reach the edge.
-					//If edge is detected than this is a valid mirror. Otherwise we continue.
-					bool perfect = true;
-					while (front >= 0 && back < rows)
-					{
-						for (int j = 0; j < cols; j++)
-						{
-							if (mat[front][j] != mat[back][j])
-							{
-								perfect = false;
-								break;
-							}
-						}
-						if (!perfect || front == 0 || back == cols)
-							break;
-						front--;
-						back++;
-					}
-					if ((row == 0 || rowIter == rows - 1) ||
-					(perfect && (front == 0 || back == rows)))
-					{
-						x = row;
-						y = rowIter;
-						perfectReflection = true;
-						horizontalReflectionFound = true;
-					}
+					colfront--;
+					colback++;
 				}
-				row++;
-				rowIter++;
+				else break;
+			}
+			if (same && (colfront == -1 || colback == cols))
+			{
+				x = col;
+				y = colIter;
+				perfectReflection = true;
+				break;
 			}
 		}
 	}
 
+	if (rotated)
+	{
+		int ret = cols - y;
+		return ret;
+	}
+
+	return y;
+}
+
+InputMat Rotate(InputMat& mat, int rows, int cols)
+{
+	InputMat rotated;
+
+	for (int i = 0; i < cols; i++)
+	{
+		vector<char> temp;
+		for (int j = rows - 1; j  >= 0; j--)
+			temp.push_back(mat[j][i]);
+
+		rotated.push_back(temp);
+	}
+
+	return rotated;
+}
+
+int FindPointOfIncidence(InputMat& mat, int rows, int cols)
+{
+	int value = Process(mat, rows, cols);
+	if (value == -1)
+	{
+		InputMat rotated = Rotate(mat, rows, cols);
+		value = Process(rotated, cols, rows, true);
+		value *= 100;
+	}
 	
-	if (verticalReflectionFound && perfectReflection) return y; //Find num of cols before the reflection	
-	else if (horizontalReflectionFound && perfectReflection) return y * 100; //Find num of rows before the reflection
-	
-	return 0;
+	return value;
 }
 
 
 void Solutions::PointOfIncidence()
 {
-	ifstream fs = Utilities::OpenFile("Day 13 Example.txt");
+	ifstream fs = Utilities::OpenFile("Day 13 Input.txt");
 	string line = "";
 
 	InputMat mat;
 	vector<char> colVector;
-	int rows, cols, sum = 0;
+	int rows = 0, cols = 0, sum = 0;
 
 	while (getline(fs, line))
 	{
