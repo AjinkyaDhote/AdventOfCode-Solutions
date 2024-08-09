@@ -1,26 +1,48 @@
-﻿using System;
-using System.IO;
+﻿//---Day 1: Now Quite Lisp---//
 
 namespace AOC_2015
 {
-    public class Day1 : Solutions
+    public static class Day1
     {
-        public void SolveDay1()
+        public static void Solve()
         {
-            ReadInput();
-        }
-
-        public override void ReadInput()
-        {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Day1Example.txt");
-            using StreamReader sr = new StreamReader(path);
-            string input = sr.ReadToEnd();
+            var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day1\Input.txt");
+            var input = Utility.ReadToEnd(path);
             ProcessPartOne(input);
+            ProcessPartTwo(input);
+            ;
         }
 
         private static void ProcessPartOne(string input)
         {
+            int step = 0;
+            foreach (char ch in input)
+            {
+                if (ch == '(')
+                    step++;
+                else if (ch == ')')
+                    step--;
+            }
 
+            Console.WriteLine($"Reached Floor: {step}");
+        }
+
+        private static void ProcessPartTwo(string input)
+        {
+            int step = 0;
+            int basement = 0;
+            foreach (char ch in input)
+            {
+                if (ch == '(')
+                    step++;
+                else if (ch == ')')
+                    step--;
+                if (step == -1)
+                    break;
+                basement++;
+            }
+
+            Console.WriteLine($"Reached basement: {++basement}");
         }
     }
 }
