@@ -6,7 +6,7 @@ namespace AOC_2015
     {
         public static void Solve()
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day 3\Input.txt");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day3\Input.txt");
             var input = Utility.ReadToEnd(path);
             ProcessPartOne(input);
             ProcessPartTwo(input);

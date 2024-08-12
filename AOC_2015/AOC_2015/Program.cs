@@ -12,7 +12,10 @@ namespace AOC_2015
             //Day2.Solve();
 
             //---Day 3: Perfectly Spherical Houses in a Vacuum ---
-            Day3.Solve();
+            //Day3.Solve();
+
+            //---Day 4: The Ideal Stocking Stuffer ---
+            Day4.Solve();
         }
     }
 }
