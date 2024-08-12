@@ -10,6 +10,9 @@ namespace AOC_2015
 
             //--- Day 2: I Was Told There Would Be No Math ---
             //Day2.Solve();
+
+            //---Day 3: Perfectly Spherical Houses in a Vacuum ---
+            Day3.Solve();
         }
     }
 }

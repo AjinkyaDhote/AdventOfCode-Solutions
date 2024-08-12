@@ -26,7 +26,6 @@ namespace AOC_2015
             var input = Utility.ReadToEnd(path);
             List<string> dimensions = Utility.SplitString(input);
             ProcessPartOne(dimensions);
-            //ProcessPartTwo(input);
         }
 
         private static void ProcessPartOne(List<string> dimensions)
