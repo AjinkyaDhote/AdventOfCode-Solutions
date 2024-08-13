@@ -15,7 +15,10 @@ namespace AOC_2015
             //Day3.Solve();
 
             //---Day 4: The Ideal Stocking Stuffer ---
-            Day4.Solve();
+            //Day4.Solve();
+
+            //--- Day 5: Doesn't He Have Intern-Elves For This? ---
+            Day5.Solve();
         }
     }
 }
