@@ -7,7 +7,7 @@
             var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day5\Input.txt");
             var input = Utility.ReadToEnd(path);
             ProcessPartOne(input);
-            //ProcessPartTwo(input);
+            ProcessPartTwo(input);
         }
 
         private static bool IsVowel(char c)
@@ -91,7 +91,84 @@
                     niceString++;
             }
 
-            Console.WriteLine($"Total Nice Strings: {niceString}");
+            Console.WriteLine($"Part One, Total Nice Strings: {niceString}");
+        }
+
+
+        private static bool IsNiceStringModified(string str)
+        {
+            bool isNice = true;
+            int repeatCondition = 0;//At least one letter which repeats with exactly one letter between them, like xyx, abcdefeghi (efe)
+
+            //Contains Pair of two letters that appears at least twice in the string without overlapping 
+            Dictionary<string, int> pairs = new ();
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (i < str.Length - 1)
+                {
+                        string add = String.Concat(str[i], str[i + 1]);
+                        if (!pairs.TryAdd(add, 1))
+                        {
+                            if (str[i] == str[i +1]) //overlap?
+                            {
+                                if (i < str.Length - 2)
+                                {
+                                    if (str[i] == str[i + 2])
+                                        pairs[add]++;
+                                    else if(str[i] != str[i - 1])
+                                        pairs[add]++;
+                                }    
+                                else if (str[i] != str[i-1])
+                                    pairs[add]++;
+                        }
+                            else
+                                pairs[add]++;
+                            
+                        }
+                }
+
+                if (i < str.Length - 2)
+                    if (str[i] == str[i + 2])
+                        repeatCondition++;
+            }
+
+            if (repeatCondition < 1) isNice = false;
+
+            if(isNice)
+            {
+                bool greaterThanTwoPairs = false;
+                foreach (KeyValuePair<string, int> pair in pairs)
+                {
+                    if (pair.Value > 1)
+                    {
+                        greaterThanTwoPairs = true;
+                        break;
+                    }
+                     
+                }
+                isNice = greaterThanTwoPairs;
+            }
+
+            return isNice;
+        }
+
+        static void ProcessPartTwo(string input)
+        {
+            List<string> strings = Utility.SplitString(input);
+            int niceString = 0;
+            foreach (string s in strings)
+            {
+                if (IsNiceStringModified(s))
+                {
+                    //Console.WriteLine($"{s} ----> Nice String");
+                    niceString++;
+                }
+                //else { Console.WriteLine($"{s} ----> Naughty String"); }
+                    
+            }
+
+            Console.WriteLine($"Part Two, Total Nice Strings: {niceString}");
         }
     }
 }
