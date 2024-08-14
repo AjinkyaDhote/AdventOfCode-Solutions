@@ -18,7 +18,10 @@ namespace AOC_2015
             //Day4.Solve();
 
             //--- Day 5: Doesn't He Have Intern-Elves For This? ---
-            Day5.Solve();
+            //Day5.Solve();
+
+            //--- Day 6: Probably a Fire Hazard ---
+            Day6.Solve();
         }
     }
 }
