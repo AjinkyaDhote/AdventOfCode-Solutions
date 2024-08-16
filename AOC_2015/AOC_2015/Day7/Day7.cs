@@ -1,4 +1,4 @@
-﻿//---Day 7: Some Assembly Required-- -
+﻿//---Day 7: Some Assembly Required---
 
 namespace AOC_2015
 {
