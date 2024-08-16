@@ -132,7 +132,7 @@ namespace AOC_2015
 
             }
 
-             return FindValue(output); //This is another unknown gate.
+            return FindValue(output); //This is another unknown gate.
         }
 
 
@@ -140,27 +140,22 @@ namespace AOC_2015
         {
             List<string> instructions = Utility.SplitString(input);
 
-            foreach (string instruction in instructions) //Create the map with all output as key and all input as corressponding values.
+            foreach (string instruction in instructions) //Create the map with all output as key and all input as corresponding values.
             {
                 List<string> split = Utility.SplitString(instruction, " -> ");
                 map.Add(split[1], split[0]);
             }
 
-            //Example Input
-            //Console.WriteLine($"d: {FindValue("d")}");
-            //Console.WriteLine($"e: {FindValue("e")}");
-            //Console.WriteLine($"f: {FindValue("f")}");
-            //Console.WriteLine($"g: {FindValue("g")}");
-            //Console.WriteLine($"h: {FindValue("h")}");
-            //Console.WriteLine($"i: {FindValue("i")}");
-            //Console.WriteLine($"x: {FindValue("x")}");
-            //Console.WriteLine($"y: {FindValue("y")}");
-
             //Real Input
-            Console.WriteLine($"a: {FindValue("a")}");
-            
-            //Console.WriteLine($"b: {FindValue("b")}");
-            //Console.WriteLine($"c: {FindValue("c")}");
+            UInt16 valueA;
+            valueA = FindValue("a");
+            Console.WriteLine($"Part One a: {valueA}");
+
+            //Part Two
+            signals.Clear();
+            signals.Add("b", valueA);
+            valueA = FindValue("a");
+            Console.WriteLine($"Part Two a: {valueA}");
         }
     }
 }
