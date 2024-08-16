@@ -19,7 +19,7 @@
         {
             bool isNice = true;
             int appearsTwiceInARow = 0;
-            Dictionary<char, int> vowelCount = new ();
+            Dictionary<char, int> vowelCount = [];
             vowelCount['a'] = 0;
             vowelCount['e'] = 0;
             vowelCount['i'] = 0;
@@ -80,7 +80,6 @@
             return isNice;
         }
 
-
         static void ProcessPartOne(string input)
         {
             List<string> strings = Utility.SplitString(input);
@@ -101,7 +100,7 @@
             int repeatCondition = 0;//At least one letter which repeats with exactly one letter between them, like xyx, abcdefeghi (efe)
 
             //Contains Pair of two letters that appears at least twice in the string without overlapping 
-            Dictionary<string, int> pairs = new ();
+            Dictionary<string, int> pairs = [];
 
             for (int i = 0; i < str.Length; i++)
             {

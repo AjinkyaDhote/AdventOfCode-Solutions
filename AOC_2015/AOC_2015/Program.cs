@@ -21,7 +21,10 @@ namespace AOC_2015
             //Day5.Solve();
 
             //--- Day 6: Probably a Fire Hazard ---
-            Day6.Solve();
+            //Day6.Solve();
+
+            //---Day 7: Some Assembly Required-- -
+            Day7.Solve();
         }
     }
 }

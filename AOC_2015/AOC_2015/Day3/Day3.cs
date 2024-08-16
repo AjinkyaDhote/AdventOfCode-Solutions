@@ -14,7 +14,7 @@ namespace AOC_2015
 
         private static void ProcessPartOne(string input)
         {
-            Dictionary<KeyValuePair<int, int>, bool> map = new Dictionary<KeyValuePair<int, int>, bool>();
+            Dictionary<KeyValuePair<int, int>, bool> map = [];
             int x = 0; int y = 0;
             map.Add(new KeyValuePair<int, int>(x,y), true);
             int count = 1;
