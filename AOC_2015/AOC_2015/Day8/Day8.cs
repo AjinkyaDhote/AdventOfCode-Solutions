@@ -12,7 +12,7 @@ namespace AOC_2015
 
             var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day8\Input.txt");
             var input = Utility.ReadToEnd(path);
-            //ProcessPartOne(input);
+            ProcessPartOne(input);
             ProcessPartTwo(input);
 
             watch.Stop();
@@ -68,7 +68,7 @@ namespace AOC_2015
                    
                 }
                 actualLength += sb.Length;
-                Console.WriteLine ($"{str}: Literal Length {str.Length}, Actual Length {sb.Length}");
+                //Console.WriteLine ($"{str}: Literal Length {str.Length}, Actual Length {sb.Length}");
             }
 
             Console.WriteLine($"Part One: {literalLength - actualLength}");
@@ -95,7 +95,7 @@ namespace AOC_2015
                 }
                 sb.Append('"');
                 extendedLength += sb.Length;
-                Console.WriteLine($"{str}: Literal Length {str.Length}, {sb}: Extended Length {sb.Length}");
+                //Console.WriteLine($"{str}: Literal Length {str.Length}, {sb}: Extended Length {sb.Length}");
             }
 
             Console.WriteLine($"Part Two: {extendedLength - literalLength}");
