@@ -1,10 +1,7 @@
 ﻿//---Day 8: Matchsticks---
 
-
 using System.Text;
 
-//Wrong 1339 : low
-//Wrong 1455: high
 namespace AOC_2015
 {
     public static class Day8
@@ -13,7 +10,7 @@ namespace AOC_2015
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day8\Example.txt");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day8\Input.txt");
             var input = Utility.ReadToEnd(path);
             Process(input);
 
@@ -46,7 +43,7 @@ namespace AOC_2015
                                     string sub = str.Substring(i+2, 2);
                                     int value = Convert.ToInt32(sub,16);
                                     sb.Append(Char.ConvertFromUtf32(value));
-                                    i += 4;
+                                    i += 3;
                                 }
                                 else
                                 {
@@ -62,6 +59,10 @@ namespace AOC_2015
                                 continue;
                             }
                         }
+                    }
+                    else
+                    {
+                        sb.Append(str[i]);
                     }
                    
                 }
