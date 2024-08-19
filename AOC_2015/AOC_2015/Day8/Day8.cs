@@ -12,13 +12,14 @@ namespace AOC_2015
 
             var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day8\Input.txt");
             var input = Utility.ReadToEnd(path);
-            Process(input);
+            //ProcessPartOne(input);
+            ProcessPartTwo(input);
 
             watch.Stop();
             Console.WriteLine($"Elapsed Time {watch.ElapsedMilliseconds} ms");
         }
 
-        private static void Process(string input)
+        private static void ProcessPartOne(string input)
         {
             int literalLength = 0; int actualLength = 0;
             List<string> strings = Utility.SplitString(input);
@@ -71,6 +72,33 @@ namespace AOC_2015
             }
 
             Console.WriteLine($"Part One: {literalLength - actualLength}");
+        }
+
+        private static void ProcessPartTwo(string input)
+        {
+            int literalLength = 0; int extendedLength = 0;
+            List<string> strings = Utility.SplitString(input);
+            foreach (string str in strings)
+            {
+                literalLength += str.Length;
+                StringBuilder sb = new();
+                sb.Append('"');
+                for (int i = 0; i < str.Length; i++)
+                {
+                    if(str[i] == '"') 
+                        sb.Append("\\\"");
+                    else if (str[i] ==  '\\')
+                        sb.Append("\\\\");   
+                    else
+                        sb.Append(str[i]);
+
+                }
+                sb.Append('"');
+                extendedLength += sb.Length;
+                Console.WriteLine($"{str}: Literal Length {str.Length}, {sb}: Extended Length {sb.Length}");
+            }
+
+            Console.WriteLine($"Part Two: {extendedLength - literalLength}");
         }
     }
 }
