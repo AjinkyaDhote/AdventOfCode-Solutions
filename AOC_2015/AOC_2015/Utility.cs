@@ -3,7 +3,7 @@
     public static class Utility
     {
         private static readonly string INPUT_PATH = Path.GetFullPath(@"..\..\..\");
-        
+
         public static string GetInputPath() { return INPUT_PATH; }
 
         public static string ReadToEnd(string input)
@@ -28,6 +28,11 @@
         {
             string[] newSeparator = ["\r\n", "\r", separator, " "];
             return input.Split(newSeparator, StringSplitOptions.RemoveEmptyEntries).ToList();
+        }
+
+        public static List<string> SplitStringAndRemoveSpaces(string input, string[] separators)
+        {   
+            return input.Split(separators, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
     }
 }
