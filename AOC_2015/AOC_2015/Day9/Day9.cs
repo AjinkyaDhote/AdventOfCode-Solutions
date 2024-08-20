@@ -13,7 +13,7 @@ namespace AOC_2015
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day9\Example.txt");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day9\Input.txt");
             var input = Utility.ReadToEnd(path);
             Process(input);
 
@@ -24,30 +24,54 @@ namespace AOC_2015
         static void Process(string input)
         {
             List<string> paths = Utility.SplitString(input);
-            List<Route> routes = new List<Route>();
-            List<string> visited = [];
-            uint shortest = uint.MaxValue;
-            KeyValuePair<string, string> shortestRoute;
+            HashSet<string> locations = [];
+            Dictionary<Tuple<string, string>, UInt32> routes = [];
+            UInt32 totalDistance = 0; UInt32 shortestDistance = UInt32.MaxValue;
             foreach(string path in paths)
             {
                 List<string> split = Utility.SplitStringAndRemoveSpaces(path, ["=", "to", " "]);
-                //KeyValuePair<string, string> pair = new KeyValuePair<string, string>(split[0], split[1]);
-                Route route1 = new()
-                {
-                    from = split[0],
-                    to = split[1],
-                    dist = UInt32.Parse(split[2])
-                };
+                                routes.Add(new Tuple<string, string>(split[0], split[1]), UInt32.Parse(split[2]));
+                routes.Add(new Tuple<string, string>(split[1], split[0]), UInt32.Parse(split[2]));
 
-                Route route2 = new ()
-                {
-                    from = split[1],
-                    to = split[0],
-                    dist = route1.dist
-                };
-                routes.Add(route1);
-                routes.Add(route2);
+                locations.Add(split[0]);
+                locations.Add(split[1]);
             }
+
+            //Now find all the possible permutations.
+            IEnumerable<IEnumerable<string>> allPermutations = BuildPermutations( new List<string> ( locations ) ); //LINQ
+
+            foreach(var permutation in allPermutations)
+            {
+                List<string> path = permutation.ToList();
+
+                int i = 0; int j = i + 1;
+
+                while(j < path.Count) 
+                {
+                    string from = path[i++];
+                    string to = path[j++];
+                    Tuple<string, string> t = new (from, to);
+
+                    if(routes.TryGetValue(t, out UInt32 dist))
+                        totalDistance += dist;
+                }
+
+                shortestDistance = totalDistance < shortestDistance ? totalDistance : shortestDistance;
+                totalDistance = 0;  
+            }
+
+            Console.WriteLine($"Shortest Distance: {shortestDistance}");
+        }
+
+        static List<List<string>> BuildPermutations(List<string> items)
+        {
+            if (items.Count > 1)
+            {
+                return items.SelectMany(item => BuildPermutations(items.Where(i => !i.Equals(item)).ToList()),
+                                       (item, permutation) => new[] { item }.Concat(permutation).ToList()).ToList();
+            }
+
+            return [ items ];
         }
         
     }
