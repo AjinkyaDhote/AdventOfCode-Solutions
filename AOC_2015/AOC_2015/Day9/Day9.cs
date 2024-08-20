@@ -4,11 +4,6 @@ namespace AOC_2015
 {
     public static class Day9
     {
-        public struct Route
-        {
-            public string from; public string to; public uint dist;
-        }
-
         public static void Solve()
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
