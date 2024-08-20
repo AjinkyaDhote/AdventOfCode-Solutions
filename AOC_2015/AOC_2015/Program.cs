@@ -26,11 +26,14 @@ namespace AOC_2015
             //---Day 7: Some Assembly Required---
             //Day7.Solve();
 
-            //---Day 8: Matchsticks---
+            //--- Day 8: Matchsticks ---
             //Day8.Solve();
 
-            //---Day 9: All in a Single Night ---
-            Day9.Solve();
+            //--- Day 9: All in a Single Night ---
+            //Day9.Solve();
+
+            //--- Day 10: Elves Look, Elves Say ---
+            Day10.Solve();
         }
     }
 }
