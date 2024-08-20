@@ -26,7 +26,7 @@ namespace AOC_2015
             List<string> paths = Utility.SplitString(input);
             HashSet<string> locations = [];
             Dictionary<Tuple<string, string>, UInt32> routes = [];
-            UInt32 totalDistance = 0; UInt32 shortestDistance = UInt32.MaxValue;
+            UInt32 totalDistance = 0; UInt32 shortestDistance = UInt32.MaxValue; UInt32 longestDistance = UInt32.MinValue;
             foreach(string path in paths)
             {
                 List<string> split = Utility.SplitStringAndRemoveSpaces(path, ["=", "to", " "]);
@@ -57,10 +57,12 @@ namespace AOC_2015
                 }
 
                 shortestDistance = totalDistance < shortestDistance ? totalDistance : shortestDistance;
+                longestDistance = totalDistance > longestDistance ? totalDistance : longestDistance;
                 totalDistance = 0;  
             }
 
             Console.WriteLine($"Shortest Distance: {shortestDistance}");
+            Console.WriteLine($"Longest Distance:  {longestDistance}");
         }
 
         static List<List<string>> BuildPermutations(List<string> items)

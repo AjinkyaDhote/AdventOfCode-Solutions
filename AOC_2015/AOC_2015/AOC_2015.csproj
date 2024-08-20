@@ -7,8 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Kingdom.Combinatorics.Permutations" Version="1.1.2.2338" />
-  </ItemGroup>
-
 </Project>
