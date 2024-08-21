@@ -33,7 +33,10 @@ namespace AOC_2015
             //Day9.Solve();
 
             //--- Day 10: Elves Look, Elves Say ---
-            Day10.Solve();
+            //Day10.Solve();
+
+            //--- Day 11: Corporate Policy ---
+            Day11.Solve();
         }
     }
 }
