@@ -36,7 +36,10 @@ namespace AOC_2015
             //Day10.Solve();
 
             //--- Day 11: Corporate Policy ---
-            Day11.Solve();
+            //Day11.Solve();
+
+            //--- Day 12: JSAbacusFramework.io ---
+            Day12.Solve();
         }
     }
 }
