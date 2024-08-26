@@ -39,7 +39,10 @@ namespace AOC_2015
             //Day11.Solve();
 
             //--- Day 12: JSAbacusFramework.io ---
-            Day12.Solve();
+            //Day12.Solve();
+
+            //---Day 13: Knights of the Dinner Table---
+            Day13.Solve();
         }
     }
 }
