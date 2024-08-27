@@ -42,7 +42,10 @@ namespace AOC_2015
             //Day12.Solve();
 
             //---Day 13: Knights of the Dinner Table---
-            Day13.Solve();
+            //Day13.Solve();
+
+            //---Day 14: Reindeer Olympics ---
+            Day14.Solve();
         }
     }
 }
