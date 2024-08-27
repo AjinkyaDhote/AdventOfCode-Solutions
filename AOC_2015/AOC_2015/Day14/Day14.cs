@@ -1,8 +1,5 @@
 ﻿
 
-
-using System.Numerics;
-
 namespace AOC_2015
 {
     public struct Reindeer
@@ -27,16 +24,16 @@ namespace AOC_2015
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
+            var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day14\Input.txt");
+            var input = Utility.ReadToEnd(path);
+
+            List<string> lines = Utility.SplitString(input);
             List<Reindeer> list = [];
-            list.Add(new Reindeer("Vixen", 8, 8, 53));
-            list.Add(new Reindeer("Blitzen", 13, 4, 49));
-            list.Add(new Reindeer("Rudolph", 20, 7, 132));
-            list.Add(new Reindeer("Cupid", 12, 4, 43));
-            list.Add(new Reindeer("Donner", 9, 5, 38));
-            list.Add(new Reindeer("Dasher", 10, 4, 37));
-            list.Add(new Reindeer("Comet", 3, 37, 76));
-            list.Add(new Reindeer("Prancer", 9, 12, 97));
-            list.Add(new Reindeer("Dancer", 37, 1, 36));
+            for (int i = 0; i < lines.Count; i++)
+            {
+                var words = lines[i].Split(' ');
+                list.Add(new Reindeer(words[0], Int32.Parse(words[3]), Int32.Parse(words[6]), Int32.Parse(words[13])));
+            }
 
             ProcessPartOne(list);
             ProcessPartTwo(list);
@@ -96,8 +93,8 @@ namespace AOC_2015
 
                 Console.WriteLine($"Reindeer: {r.name}, Total Distance: {d}");
             }
-            Console.WriteLine();
-            Console.WriteLine($"Part One Winner: {winningReindeer}, Total Distance = {winningDistance}");
+            
+            Console.WriteLine($"\nPart One Winner: {winningReindeer}, Total Distance = {winningDistance}");
         }
 
         private static void ProcessPartTwo(List<Reindeer> list)
@@ -148,8 +145,7 @@ namespace AOC_2015
 
             int winningPoints = points.Max();
             int maxIndex = points.ToList().IndexOf(winningPoints);
-            Console.WriteLine();
-            Console.WriteLine($"Part Two Winner: {list[maxIndex].name}, Maximum Winning Points {winningPoints}");
+            Console.WriteLine($"\nPart Two Winner: {list[maxIndex].name}, Maximum Winning Points {winningPoints}");
         }
     }
 }
