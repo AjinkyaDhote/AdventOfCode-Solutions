@@ -45,7 +45,10 @@ namespace AOC_2015
             //Day13.Solve();
 
             //---Day 14: Reindeer Olympics ---
-            Day14.Solve();
+            //Day14.Solve();
+
+            //---Day 15: Day 15: Science for Hungry People ---
+            Day15.Solve();
         }
     }
 }
