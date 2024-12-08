@@ -10,7 +10,7 @@ namespace AOC_2024
     public:
 
         static void HistorianHysteria();
-
+        static void RedNosedReports();
     };
 }
 

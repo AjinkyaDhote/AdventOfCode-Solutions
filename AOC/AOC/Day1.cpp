@@ -22,6 +22,8 @@ namespace AOC_2024
 
         SolvePartOne(firstVector, secondVector);
         SolvePartTwo(firstVector, secondVector);
+
+        Utilities::CloseFile(fs);
     }
 
     void SolvePartOne(std::vector<int>& firstVector, std::vector<int>& secondVector)
