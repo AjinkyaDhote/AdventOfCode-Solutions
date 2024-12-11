@@ -36,6 +36,7 @@ namespace AOC_2024
 
         std::cout << "Part One - Safe Reports: " << safeReports << "\n";
         std::cout << "Part Two - Actual Safe Reports: " << actualSafeReports << "\n";
+        Utilities::CloseFile(fs);
     }
 
     bool IsReportSafe(std::vector<int>& vec)

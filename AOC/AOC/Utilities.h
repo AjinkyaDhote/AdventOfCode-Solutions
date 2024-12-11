@@ -20,6 +20,7 @@
 #include <cctype>
 #include <iterator>
 #include <stack>
+#include <iterator>
 
 //Defines
 #define sz(x) (int)(x.size()) 
