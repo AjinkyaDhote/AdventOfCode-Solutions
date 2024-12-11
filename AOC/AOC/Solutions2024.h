@@ -12,6 +12,7 @@ namespace AOC_2024
         static void HistorianHysteria();
         static void RedNosedReports();
         static void MullItOver();
+        static void CeresSearch();
     };
 }
 
