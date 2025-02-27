@@ -1,7 +1,4 @@
 ﻿//---Day 15: Day 15: Science for Hungry People ---
-
-using static System.Formats.Asn1.AsnWriter;
-
 namespace AOC_2015
 {
     /*Sprinkles: capacity 2, durability 0, flavor -2, texture 0, calories 3
@@ -37,7 +34,7 @@ namespace AOC_2015
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day14\Input.txt");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), Utility.GetInputPath() + @"Day15\Example.txt");
             var input = Utility.ReadToEnd(path);
             Process(input);
 
@@ -49,17 +46,24 @@ namespace AOC_2015
         {
             List<Ingredient> ingredients = [];
             {
-                //ingredients.Add(new Ingredient("Butterscotch", -1, -2, 6, 3, 8));
-                //ingredients.Add(new Ingredient("Cinnamon", 2, 3, -2, -1, 3));
+                ingredients.Add(new Ingredient("Butterscotch", -1, -2, 6, 3, 8));
+                ingredients.Add(new Ingredient("Cinnamon", 2, 3, -2, -1, 3));
 
-                ingredients.Add(new Ingredient("Sprinkles", 2, 0, -2, 0, 3));
-                ingredients.Add(new Ingredient("Butterscotch", 0, 5, -3, 0, 3));
-                ingredients.Add(new Ingredient("Chocolate", 0, 0, 5, -1, 8));
-                ingredients.Add(new Ingredient("Candy", 0, -1, 0, 5, 8));
-
+                //ingredients.Add(new Ingredient("Sprinkles", 2, 0, -2, 0, 3));
+                //ingredients.Add(new Ingredient("Butterscotch", 0, 5, -3, 0, 3));
+                //ingredients.Add(new Ingredient("Chocolate", 0, 0, 5, -1, 8));
+                //ingredients.Add(new Ingredient("Candy", 0, -1, 0, 5, 8));
             }
+
             int totalIngredients = ingredients.Count;
-            
+            int split = 100 / totalIngredients;
+
+            int ascend = 1, descend = -1;
+
+
+
+
+
             int totalScore = int.MinValue;
 
             Console.WriteLine($"{totalScore}");

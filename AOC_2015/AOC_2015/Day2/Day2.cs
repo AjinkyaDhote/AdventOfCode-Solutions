@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 
 namespace AOC_2015
 {
-
     public struct Dim
     {
         public int l, w, h;
