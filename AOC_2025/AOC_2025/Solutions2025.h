@@ -9,6 +9,7 @@ namespace AOC_2025
     {
     public:
         static void SecretEntrance();
+        static void Day2();
     };
 }
 
