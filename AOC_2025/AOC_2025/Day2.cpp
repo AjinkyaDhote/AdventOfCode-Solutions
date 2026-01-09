@@ -77,7 +77,7 @@ namespace AOC_2025
         int i = 0;
         int j = i + interval;
         bool isValid = false;
-        while (j + interval <= str.length() || 
+        while (j + interval <= str.length() && 
             !isValid)
         {
             string tmp1 = str.substr(i, interval);
@@ -106,10 +106,18 @@ namespace AOC_2025
             size_t len = temp.length();
 
             if (len == 1)
+            {
+                counter++;
                 continue;
+            }
 
             if (AreCharactersRepeating(temp))
+            {
                 invalidIDs.push_back(counter);
+                counter++;
+                continue;
+            }
+                
                 
             //The only way these total number of digits can have invalid ids is if all digits are equal.
             if (len == 2 || len == 3 || len == 5 || len == 7)
@@ -239,7 +247,7 @@ namespace AOC_2025
 
     void ParseInput()
     {
-        std::ifstream fs = Utilities::OpenFile("Day2Example.txt");
+        std::ifstream fs = Utilities::OpenFile("Day2Input.txt");
 
         string input;
         vector<string> ranges;
